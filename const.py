@@ -1,8 +1,4 @@
-BOT_TOKEN: str
-
-BOT_ID: int
-GROUP_ID: int
-BROADCAST_ID: int  # id топика для бродкаста. Установить 0, если не нужен
+from bot_config import BOT_TOKEN, BOT_ID, GROUP_ID, BROADCAST_ID
 
 # порт api сервера медиатора
 SERVER_PORT = 5010
@@ -13,11 +9,15 @@ CLIENT_PORTS = {
     'vk': 5012,
 }
 
-GREETING_TEXT = 'Приветствуем! Мы ответим Вам при первой возможности.'
-
-ABON_GOT_TEXT = 'Абоненту отправлено сообщение:\n\n{text}'
-
+# если нужны бекапы, и восстановление, то True
 BACKUP = False
+
+# текстовики
+GREETING_TEXT = 'Приветствуем! Мы ответим Вам при первой возможности.'
+ABON_GOT_TEXT = 'Абоненту отправлено сообщение:\n\n{text}'
+CREATING_LOG = 'Топик "{topic}" создан'
+CLOSING_LOG = '{name} закрыл топик "{topic}"'
+BROADCAST_LOG = '{name}\n\nвсем ожидающим:\n\n{text}'
 
 # цвета иконок при создании топика
 COLORS = {

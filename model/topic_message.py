@@ -1,5 +1,5 @@
 from structures import ChatLinksHandler
-from controller import MessageDTO, bot_topic
+from controller import MessageDTO
 
 
 async def handle_topic_message(message_dto: MessageDTO):
@@ -23,4 +23,3 @@ async def handle_topic_message(message_dto: MessageDTO):
 
     message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)
-    

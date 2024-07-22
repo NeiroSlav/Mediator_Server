@@ -1,5 +1,6 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
+from const import CLOSING_LOG
 
 
 # обрабатывает закрытие топика
@@ -7,11 +8,11 @@ async def handle_topic_close(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
     topic_id = message_dto.chat_id
-    chat_link = ChatLinksHandler.get_by_topic_id(topic_id=topic_id)
+    chat_link = ChatLinksHandler.get_by_topic_id(topic_id)
 
     # если её нет - удаляем сам топик
     if not chat_link:
-        await bot_topic.delete(topic_id=topic_id)
+        await bot_topic.delete(topic_id)
         return
 
     # если сессия есть - закрываем, меняем цвет, ставим флаг "отвечено", пишем в лог
@@ -20,4 +21,9 @@ async def handle_topic_close(message_dto: MessageDTO):
     chat_link.topic.answered = False
     await ChatLinksHandler.backup()
 
-    await bot_topic.log(f'{message_dto.sender_name} закрыл топик "{chat_link.topic.name}"')
+    # логирование информации о закрытии топика
+    await bot_topic.log(
+        CLOSING_LOG.format(
+            name=message_dto.sender_name,
+            topic=chat_link.topic.name
+    ))

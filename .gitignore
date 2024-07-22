@@ -2,3 +2,4 @@ __pycache__
 .venv
 .vscode
 backup.json
+bot_config.py

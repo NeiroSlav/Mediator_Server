@@ -1,6 +1,6 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
-from const import ABON_GOT_TEXT
+from const import ABON_GOT_TEXT, BROADCAST_LOG
 
 
 async def handle_broadcast_message(message_dto: MessageDTO):
@@ -28,5 +28,7 @@ async def handle_broadcast_message(message_dto: MessageDTO):
         await chat_link.topic.set_color('yellow')    # меняет цвет топика
 
     await bot_topic.log(  # логгирует информацию о команде бродкаста
-        f'{message_dto.sender_name}\n\nвсем:\n\n{message_dto.text}'
-    )
+        BROADCAST_LOG.format(
+            name=message_dto.sender_name,
+            text=message_dto.text
+    ))
