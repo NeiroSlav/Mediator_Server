@@ -1,10 +1,7 @@
-from controller.post.request import ForeignApi
-from controller.bot.controll import BotTopic
+from controller.post.request import foreign_api
+from controller.bot.controll import bot_topic
+
 from controller.message_dto import MessageDTO
-
-foreign_api = ForeignApi()
-bot_topic = BotTopic()
-
 
 from controller.api.income_api import *
 from controller.bot.handlers import *

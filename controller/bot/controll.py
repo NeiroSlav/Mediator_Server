@@ -1,6 +1,6 @@
 from controller.bot.init import bot
 from controller.message_dto import MessageDTO
-from const import GROUP_ID, SOCIAL_COLORS
+from const import GROUP_ID
 from aiogram.exceptions import TelegramBadRequest
 
 
@@ -9,13 +9,14 @@ class BotTopic:
     # отправка сообщения в топик
     async def send(self, message_dto: MessageDTO):
         
-        if message_dto.image and message_dto.social == 'tg':  # если есть изображение из тг
+        if message_dto.image:  # если есть изображение из тг
             await bot.send_photo(
                 chat_id=GROUP_ID, 
                 message_thread_id=message_dto.chat_id, 
                 caption=message_dto.text,
                 photo=message_dto.image,
             )
+
         elif message_dto.text:  # если есть текст
             await bot.send_message(
                 chat_id=GROUP_ID, 
@@ -72,3 +73,6 @@ class BotTopic:
         try:
             await bot.delete_message(GROUP_ID, message_id=message_id)
         except TelegramBadRequest: pass
+
+
+bot_topic = BotTopic()

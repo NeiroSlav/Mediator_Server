@@ -18,6 +18,7 @@ ABON_GOT_TEXT = 'Абоненту отправлено сообщение:\n\n{t
 CREATING_LOG = 'Топик "{topic}" создан'
 CLOSING_LOG = '{name} закрыл топик "{topic}"'
 BROADCAST_LOG = '{name}\n\nвсем ожидающим:\n\n{text}'
+POST_ERROR_LOG = 'Клиент Mediator_{social} недоступен:\n{error}'
 
 # цвета иконок при создании топика
 COLORS = {
