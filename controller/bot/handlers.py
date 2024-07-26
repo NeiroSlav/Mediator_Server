@@ -13,14 +13,14 @@ from model import handle_topic_close, handle_topic_message, handle_broadcast_mes
 # хендлер команды /close из топика
 @dp.message(MyTopicFilter(), Command("close"))
 async def get_topic_close(message: Message):
-    message_dto = MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parce_tg(message)
     await handle_topic_close(message_dto)
 
 
 # хендлер сообщения сотрудника из топика
 @dp.message(MyTopicFilter())
 async def get_topic_message(message: Message):
-    message_dto = MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parce_tg(message)
     await handle_topic_message(message_dto)
 
 
@@ -31,8 +31,9 @@ async def get_topic_bot_message(message: Message):
         await asyncio.sleep(5)
         await bot_topic.delete_message(message.message_id)
 
+
 # хендлер сообщения /broadcast из чата бродкаста
 @dp.message(MyTopicFilter(broadcast=True), Command("broadcast"))
 async def get_broadcast_message(message: Message):
-    message_dto = MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parce_tg(message)
     await handle_broadcast_message(message_dto)

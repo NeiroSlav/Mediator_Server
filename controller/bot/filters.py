@@ -1,3 +1,4 @@
+from typing import Any
 from aiogram.filters import BaseFilter
 from aiogram.types import Message
 
@@ -32,8 +33,3 @@ class MyTopicFilter(BaseFilter):
         return True
 
 
-# класс фильтрации личных сообщений
-class MyAbonChatFilter(BaseFilter):
-
-    async def __call__(self, message: Message) -> bool:
-        return message.chat.type == 'private'

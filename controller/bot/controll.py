@@ -2,6 +2,8 @@ from controller.bot.init import bot
 from controller.message_dto import MessageDTO
 from const import GROUP_ID
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import FSInputFile
+import requests
 
 
 class BotTopic:
@@ -14,7 +16,7 @@ class BotTopic:
                 chat_id=GROUP_ID, 
                 message_thread_id=message_dto.chat_id, 
                 caption=message_dto.text,
-                photo=message_dto.image,
+                photo=self._load_image(message_dto.image),
             )
 
         elif message_dto.text:  # если есть текст
@@ -35,7 +37,6 @@ class BotTopic:
                 message_thread_id=message_dto.chat_id,
                 sticker=message_dto.meta['sticker']
             )
-        
 
     # открытие нового топика
     async def create(self, name: str, image_color: int) -> int:
@@ -74,5 +75,14 @@ class BotTopic:
             await bot.delete_message(GROUP_ID, message_id=message_id)
         except TelegramBadRequest: pass
 
+    # Скачивание изображения во временный файл
+    def _load_image(self, image_url: str):
+            response = requests.get(image_url)
+
+            temp_file_path = 'temp_image.jpg'
+            with open(temp_file_path, 'wb') as file:
+                file.write(response.content)
+
+            return FSInputFile(temp_file_path)
 
 bot_topic = BotTopic()
