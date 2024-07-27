@@ -14,6 +14,9 @@ async def handle_topic_message(message_dto: MessageDTO):
     # если сессии нет, или топик закрыт
     if not chat_link or chat_link.topic.closed:
         return
+    
+    if chat_link.topic.banned:
+        raise PermissionError
 
     # ставим флаг "отвечено", меняем цвет
     chat_link.topic.answered = True

@@ -1,10 +1,10 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
-from const import CLOSING_LOG
+from const import BANNING_LOG
 
 
-# обрабатывает закрытие топика
-async def handle_topic_close(message_dto: MessageDTO):
+# обрабатывает бан абонента
+async def handle_topic_ban(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
     topic_id = message_dto.chat_id
@@ -18,15 +18,14 @@ async def handle_topic_close(message_dto: MessageDTO):
     if chat_link.topic.banned:
         raise PermissionError
 
-    # если сессия есть - закрываем, меняем цвет, ставим флаг "отвечено", пишем в лог
-    await chat_link.topic.close()
-    await chat_link.topic.set_color('red')
-    chat_link.topic.answered = False
+    # если сессия есть - меняем цвет, ставим флаг "забанен", пишем в лог
+    await chat_link.topic.set_color('black')
+    chat_link.topic.banned = True
     await ChatLinksHandler.backup()
 
-    # логирование информации о закрытии топика
+    # логирование информации о бане абонента
     await bot_topic.log(
-        CLOSING_LOG.format(
+        BANNING_LOG.format(
             name=message_dto.sender_name,
             topic=chat_link.topic.name
     ))

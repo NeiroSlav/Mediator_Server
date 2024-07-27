@@ -25,6 +25,10 @@ async def handle_foreign_message(message_dto: MessageDTO):
         await ChatLinksHandler.backup()
         greeting_flag = True
 
+    # если абонент забанен
+    elif chat_link.topic.banned:
+        return
+    
     # если абонент когда-то обращался, но топик уже закрыт
     elif chat_link.topic.closed:
         await chat_link.topic.reopen()

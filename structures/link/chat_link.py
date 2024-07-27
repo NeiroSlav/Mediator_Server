@@ -8,7 +8,6 @@ from structures.link.chats.topic import GroupTopic
 class ChatLink:
     abon_chat: AbonChat
     topic: GroupTopic
-    answered: bool
 
     # фабричный метод загрузки для загрузки данных из бекапа
     @classmethod

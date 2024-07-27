@@ -7,6 +7,7 @@ from structures.utils import get_color
 # класс работы с топиком
 class GroupTopic:
     answered: bool
+    banned: bool
     closed: bool
     color: str
     name: str
@@ -17,6 +18,7 @@ class GroupTopic:
     def restore(cls, **kwargs):
         self = cls()
         self.answered = kwargs.get('answered')
+        self.banned = kwargs.get('banned')
         self.closed = kwargs.get('closed')
         self.color = kwargs.get('color')
         self.name = kwargs.get('name')

@@ -19,8 +19,8 @@ async def handle_broadcast_message(message_dto: MessageDTO):
     all_chat_links = ChatLinksHandler.get_all_links()
     for chat_link in all_chat_links:
 
-        # если топик отвеченный, или закрытый, то его не трогает
-        if chat_link.topic.answered or chat_link.topic.closed:
+        # если топик отвеченный, или закрытый, или забаненный - его не трогает
+        if chat_link.topic.answered or chat_link.topic.closed or chat_link.topic.banned:
             continue
 
         await chat_link.abon_chat.send(message_dto)  # отправляет сообщение абону
