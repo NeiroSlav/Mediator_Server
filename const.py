@@ -23,7 +23,7 @@ BROADCAST_LOG = '{name}\n\nвсем ожидающим:\n\n{text}'
 POST_ERROR_LOG = 'Mediator_{social} помер (или притворяется):\n{error}'
 
 # цвета иконок при создании топика
-COLORS = {
+ICON_COLORS = {
     'magenta': 13338331,
     'yellow': 16766590,
     'green': 9367192,
@@ -34,6 +34,14 @@ COLORS = {
 
 # соответствия цветов соц.сетям
 SOCIAL_COLORS = {
-    'tg': COLORS['magenta'],
-    'vk': COLORS['blue'],
+    'tg': ICON_COLORS['magenta'],
+    'vk': ICON_COLORS['blue'],
+}
+
+# цвета в названиях топиков
+STATE_COLORS = {
+    'closed': 'red',
+    'answered': 'yellow',
+    'opened': 'green',
+    'banned': 'black',
 }

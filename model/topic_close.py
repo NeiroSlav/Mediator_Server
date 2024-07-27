@@ -15,13 +15,11 @@ async def handle_topic_close(message_dto: MessageDTO):
         await bot_topic.delete(topic_id)
         return
     
-    if chat_link.topic.banned:
+    if chat_link.topic.state == 'banned':
         raise PermissionError
 
     # если сессия есть - закрываем, меняем цвет, ставим флаг "отвечено", пишем в лог
     await chat_link.topic.close()
-    await chat_link.topic.set_color('red')
-    chat_link.topic.answered = False
     await ChatLinksHandler.backup()
 
     # логирование информации о закрытии топика

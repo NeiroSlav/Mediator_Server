@@ -15,13 +15,10 @@ async def handle_topic_unban(message_dto: MessageDTO):
         await bot_topic.delete(topic_id)
         return
     
-    if not chat_link.topic.banned:
+    if not chat_link.topic.state == 'banned':
         raise PermissionError
 
-    # если сессия есть - меняем цвет, ставим флаг "разбанен", пишем в лог
-    await chat_link.topic.set_color('red')
-    chat_link.topic.banned = False
-    chat_link.topic.closed = True
+    # если сессия есть - закрываем топик, пишем в лог
     await chat_link.topic.close()
     await ChatLinksHandler.backup()
 

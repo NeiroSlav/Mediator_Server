@@ -23,7 +23,6 @@ class ChatLink:
         self = cls()
         self.abon_chat = AbonChat(social, chat_id)
         self.topic = await GroupTopic.create(name, social)
-        self.answered = False
         return self
 
     def __str__(self) -> str:

@@ -12,16 +12,16 @@ async def handle_topic_message(message_dto: MessageDTO):
     chat_link = ChatLinksHandler.get_by_topic_id(topic_id=topic_id)
 
     # если сессии нет, или топик закрыт
-    if not chat_link or chat_link.topic.closed:
+    if not chat_link or chat_link.topic.state == 'closed':
         return
     
-    if chat_link.topic.banned:
+    if chat_link.topic.state == 'banned':
         raise PermissionError
 
     # ставим флаг "отвечено", меняем цвет
-    chat_link.topic.answered = True
-    if chat_link.topic.color != 'yellow':
-        await chat_link.topic.set_color('yellow')
+    await chat_link.topic.answer()
+    if chat_link.topic.state != 'answered':
+        await chat_link.topic.answer()
         await ChatLinksHandler.backup()
 
     message_dto.chat_id = chat_link.abon_chat.id

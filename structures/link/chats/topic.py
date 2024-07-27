@@ -1,15 +1,12 @@
 from pprint import pprint
 from controller import bot_topic, MessageDTO
-from const import SOCIAL_COLORS
+from const import SOCIAL_COLORS, STATE_COLORS
 from structures.utils import get_color
 
 
 # класс работы с топиком
 class GroupTopic:
-    answered: bool
-    banned: bool
-    closed: bool
-    color: str
+    state: str
     name: str
     id: int
 
@@ -17,10 +14,7 @@ class GroupTopic:
     @classmethod
     def restore(cls, **kwargs):
         self = cls()
-        self.answered = kwargs.get('answered')
-        self.banned = kwargs.get('banned')
-        self.closed = kwargs.get('closed')
-        self.color = kwargs.get('color')
+        self.state = kwargs.get('state')
         self.name = kwargs.get('name')
         self.id = kwargs.get('id')
         return self
@@ -29,13 +23,11 @@ class GroupTopic:
     @classmethod
     async def create(cls, name: str, social: str):
         id = await bot_topic.create(
-            f'{get_color("green")} {name}',
+            f'{get_color(STATE_COLORS['opened'])} {name}',
             image_color=SOCIAL_COLORS[social],
         )
         self = cls()
-        self.answered = False
-        self.closed = False
-        self.color = 'green'
+        self.state = 'opened'
         self.name = str(name)
         self.id = id
         return self
@@ -46,11 +38,7 @@ class GroupTopic:
         await bot_topic.send(message_dto)
 
     # смена цвета перед именем топика
-    async def set_color(self, color: str):
-        if self.color == color:
-            return
-        self.color = color
-
+    async def _set_color(self, color: str):
         await bot_topic.set_name(
             topic_id=self.id,
             name=f'{get_color(color)} {self.name}',
@@ -58,10 +46,22 @@ class GroupTopic:
 
     # закрытие топика
     async def close(self):
-        self.closed = True
+        self.state = 'closed'
+        await self._set_color(STATE_COLORS['closed'])
         await bot_topic.close(topic_id=self.id)
 
     # открытие топика
     async def reopen(self):
-        self.closed = False
+        self.state = 'opened'
+        await self._set_color(STATE_COLORS['opened'])
         await bot_topic.reopen(topic_id=self.id)
+
+    # бан топика
+    async def ban(self):
+        self.state = 'banned'
+        await self._set_color(STATE_COLORS['banned'])
+
+    # бан топика
+    async def answer(self):
+        self.state = 'answered'
+        await self._set_color(STATE_COLORS['answered'])

@@ -15,12 +15,11 @@ async def handle_topic_ban(message_dto: MessageDTO):
         await bot_topic.delete(topic_id)
         return
     
-    if chat_link.topic.banned:
+    if chat_link.topic.state == 'banned':
         raise PermissionError
 
     # если сессия есть - меняем цвет, ставим флаг "забанен", пишем в лог
-    await chat_link.topic.set_color('black')
-    chat_link.topic.banned = True
+    await chat_link.topic.ban()
     await ChatLinksHandler.backup()
 
     # логирование информации о бане абонента

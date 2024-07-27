@@ -26,14 +26,13 @@ async def handle_foreign_message(message_dto: MessageDTO):
         greeting_flag = True
 
     # если абонент забанен
-    elif chat_link.topic.banned:
+    elif chat_link.topic.state == 'banned':
         return
     
     # если абонент когда-то обращался, но топик уже закрыт
-    elif chat_link.topic.closed:
+    elif chat_link.topic.state == 'closed':
         await chat_link.topic.reopen()
         await ChatLinksHandler.backup()
-        await chat_link.topic.set_color('green')
         greeting_flag = True
 
     # пересылка сообщения абонента в топик
