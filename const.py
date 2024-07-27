@@ -10,7 +10,7 @@ CLIENT_PORTS = {
 }
 
 # если нужны бекапы, и восстановление, то True
-BACKUP = False
+BACKUP = True
 
 # текстовики
 GREETING_TEXT = 'Приветствуем! Мы ответим Вам при первой возможности.'
@@ -18,7 +18,7 @@ ABON_GOT_TEXT = 'Абоненту отправлено сообщение:\n\n{t
 CREATING_LOG = 'Топик "{topic}" создан'
 CLOSING_LOG = '{name} закрыл топик "{topic}"'
 BROADCAST_LOG = '{name}\n\nвсем ожидающим:\n\n{text}'
-POST_ERROR_LOG = 'Клиент Mediator_{social} недоступен:\n{error}'
+POST_ERROR_LOG = 'Mediator_{social} помер (или притворяется):\n{error}'
 
 # цвета иконок при создании топика
 COLORS = {
