@@ -1,6 +1,6 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
-from const import BANNING_LOG
+from const import BANNING_LOG, ABON_BAN_TEXT
 
 
 # обрабатывает бан абонента
@@ -18,9 +18,14 @@ async def handle_topic_ban(message_dto: MessageDTO):
     if chat_link.topic.state == 'banned':
         raise PermissionError
 
-    # если сессия есть - меняем цвет, ставим флаг "забанен", пишем в лог
+    # если сессия есть - ставим флаг "забанен", пишем в лог
     await chat_link.topic.ban()
     await ChatLinksHandler.backup()
+
+    # отправляет абоненту сообщение о том, что он забанен
+    await chat_link.abon_chat.send(
+        MessageDTO.new(ABON_BAN_TEXT)
+    )
 
     # логирование информации о бане абонента
     await bot_topic.log(
