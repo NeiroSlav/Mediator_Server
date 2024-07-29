@@ -4,3 +4,4 @@ __pycache__
 backup.json
 bot_config.py
 temp*
+database.db

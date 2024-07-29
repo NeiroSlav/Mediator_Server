@@ -22,7 +22,6 @@ async def handle_topic_message(message_dto: MessageDTO):
     await chat_link.topic.answer()
     if chat_link.topic.state != 'answered':
         await chat_link.topic.answer()
-        await ChatLinksHandler.backup()
 
     message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)

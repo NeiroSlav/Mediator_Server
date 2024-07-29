@@ -13,7 +13,7 @@ class AbonChat:
     def restore(cls, **kwargs):
         return cls(
             social=kwargs.get('social'),
-            chat_id=kwargs.get('id'),
+            chat_id=kwargs.get('abon_id'),
         )
 
     # отправка сообщения в чат абонента

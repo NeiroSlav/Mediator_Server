@@ -1,16 +1,17 @@
-from structures.backuper import Backuper
+from controller import Backuper
 from structures.link.chat_link import ChatLink
 
 
 # класс хранения и управления линками
 class ChatLinksHandler:
-    _all_chat_links: list[ChatLink] = list(map(
-        lambda x: ChatLink.restore(**x), Backuper.read()
-    ))
+    _all_chat_links: list[ChatLink] = []
 
     @classmethod
-    async def backup(cls):
-        await Backuper.save(cls._all_chat_links[:])
+    async def restore(cls):
+        raw_links = await Backuper.fetch_all()
+        for raw_link in raw_links:
+            chat_link = ChatLink.restore(raw_link)
+            cls._all_chat_links.append(chat_link)
 
     @classmethod  # добавление линка в список
     async def add(cls, link: ChatLink) -> bool:
@@ -20,9 +21,9 @@ class ChatLinksHandler:
         return True
 
     @classmethod  # поиск линка по id абонента
-    def get_by_abon_id(cls, chat_id: int) -> ChatLink | None:
+    def get_by_abon_id(cls, chat_id: int, social: str) -> ChatLink | None:
         filtered = list(filter(
-            lambda x: x.abon_chat.id == chat_id,
+            lambda x: x.abon_chat.id == chat_id and x.abon_chat.social == social,
             cls._all_chat_links
         ))
         if filtered:

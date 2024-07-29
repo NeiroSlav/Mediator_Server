@@ -20,7 +20,6 @@ async def handle_topic_unban(message_dto: MessageDTO):
 
     # если сессия есть - закрываем топик, пишем в лог
     await chat_link.topic.close()
-    await ChatLinksHandler.backup()
 
     # логирование информации о бане абонента
     await bot_topic.log(

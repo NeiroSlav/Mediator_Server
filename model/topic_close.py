@@ -20,7 +20,6 @@ async def handle_topic_close(message_dto: MessageDTO):
 
     # если сессия есть - закрываем, меняем цвет, ставим флаг "отвечено", пишем в лог
     await chat_link.topic.close()
-    await ChatLinksHandler.backup()
 
     # логирование информации о закрытии топика
     await bot_topic.log(

@@ -6,15 +6,17 @@ from const import GREETING_TEXT, ABON_GOT_TEXT, CREATING_LOG
 async def handle_foreign_message(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
-    abon_chat_id = message_dto.chat_id
-    chat_link = ChatLinksHandler.get_by_abon_id(abon_chat_id)
+    chat_link = ChatLinksHandler.get_by_abon_id(
+        message_dto.chat_id,
+        message_dto.social,
+    )
     greeting_flag = False
     
     # если абонент обращается в первый раз
     if not chat_link:
         chat_link = await ChatLink.create(
             social=message_dto.social,
-            chat_id=abon_chat_id,
+            chat_id=message_dto.chat_id,
             name=message_dto.sender_name
         )
         await ChatLinksHandler.add(chat_link)
@@ -23,7 +25,6 @@ async def handle_foreign_message(message_dto: MessageDTO):
                 topic=chat_link.topic.name,
                 social=message_dto.social,
         ))
-        await ChatLinksHandler.backup()
         greeting_flag = True
 
     # если абонент забанен
@@ -33,7 +34,6 @@ async def handle_foreign_message(message_dto: MessageDTO):
     # если абонент когда-то обращался, но топик уже закрыт
     elif chat_link.topic.state == 'closed':
         await chat_link.topic.reopen()
-        await ChatLinksHandler.backup()
         greeting_flag = True
 
     # пересылка сообщения абонента в топик

@@ -2,6 +2,7 @@ from pprint import pprint
 from controller import bot_topic, MessageDTO
 from const import SOCIAL_COLORS, STATE_COLORS
 from structures.utils import get_color
+from controller import Backuper
 
 
 # класс работы с топиком
@@ -15,8 +16,8 @@ class GroupTopic:
     def restore(cls, **kwargs):
         self = cls()
         self.state = kwargs.get('state')
-        self.name = kwargs.get('name')
-        self.id = kwargs.get('id')
+        self.name = kwargs.get('topic_name')
+        self.id = kwargs.get('topic_id')
         return self
 
     # фабричный метод создания объекта
@@ -49,19 +50,27 @@ class GroupTopic:
         self.state = 'closed'
         await self._set_color(STATE_COLORS['closed'])
         await bot_topic.close(topic_id=self.id)
+        await self._backup()
 
     # открытие топика
     async def reopen(self):
         self.state = 'opened'
         await self._set_color(STATE_COLORS['opened'])
         await bot_topic.reopen(topic_id=self.id)
+        await self._backup()
 
     # бан топика
     async def ban(self):
         self.state = 'banned'
         await self._set_color(STATE_COLORS['banned'])
+        await self._backup()
 
     # бан топика
     async def answer(self):
         self.state = 'answered'
         await self._set_color(STATE_COLORS['answered'])
+        await self._backup()
+
+    # бекап состояния в базу
+    async def _backup(self):
+        await Backuper.update_state(topic_id=self.id, new_state=self.state)

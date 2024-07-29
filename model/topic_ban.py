@@ -20,7 +20,6 @@ async def handle_topic_ban(message_dto: MessageDTO):
 
     # если сессия есть - ставим флаг "забанен", пишем в лог
     await chat_link.topic.ban()
-    await ChatLinksHandler.backup()
 
     # отправляет абоненту сообщение о том, что он забанен
     await chat_link.abon_chat.send(
