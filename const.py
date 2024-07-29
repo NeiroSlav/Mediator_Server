@@ -15,7 +15,7 @@ BACKUP = True
 # текстовики
 GREETING_TEXT = 'Приветствуем! Мы ответим Вам при первой возможности.'
 ABON_GOT_TEXT = 'Абоненту отправлено сообщение:\n\n{text}'
-CREATING_LOG = 'Топик "{topic}" создан'
+CREATING_LOG = 'Топик "{topic}" (#{social}) создан'
 CLOSING_LOG = '{name} закрыл топик "{topic}"'
 BANNING_LOG = '{name} забанил абонента "{topic}"'
 UNBANNING_LOG = '{name} разбанил абонента "{topic}"'

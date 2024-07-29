@@ -20,7 +20,8 @@ async def handle_foreign_message(message_dto: MessageDTO):
         await ChatLinksHandler.add(chat_link)
         await bot_topic.log(
             CREATING_LOG.format(
-                topic=chat_link.topic.name
+                topic=chat_link.topic.name,
+                social=message_dto.social,
         ))
         await ChatLinksHandler.backup()
         greeting_flag = True
@@ -44,11 +45,11 @@ async def handle_foreign_message(message_dto: MessageDTO):
 
 # приветствие абонента
 async def greet_abon(chat_link: ChatLink):
-    message_dot = MessageDTO.new(GREETING_TEXT)
+    message_dto = MessageDTO.new(GREETING_TEXT)
     notification = MessageDTO.new(
         ABON_GOT_TEXT.format(
             text=GREETING_TEXT
     ))
 
-    await chat_link.abon_chat.send(message_dot)  # отправка абону приветственного текста
+    await chat_link.abon_chat.send(message_dto)  # отправка абону приветственного текста
     await chat_link.topic.send(notification)     # отправка в топик информации о приветствии
