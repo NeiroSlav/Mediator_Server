@@ -24,7 +24,7 @@ class GroupTopic:
     @classmethod
     async def create(cls, name: str, social: str):
         id = await bot_topic.create(
-            f'{get_color(STATE_COLORS['opened'])} {name}',
+            f'{get_color(STATE_COLORS["opened"])} {name}',
             image_color=SOCIAL_COLORS[social],
         )
         self = cls()
