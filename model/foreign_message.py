@@ -3,6 +3,7 @@ from controller import MessageDTO, bot_topic
 from const import GREETING_TEXT, ABON_GOT_TEXT, CREATING_LOG
 from model.suffix_message import suffix
 
+
 # обрабатывает сообщение извне, пришедшее по http
 async def handle_foreign_message(message_dto: MessageDTO):
 

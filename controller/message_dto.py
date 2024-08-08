@@ -12,7 +12,7 @@ class MessageDTO(BaseModel):
     meta: dict
 
     @classmethod
-    async def parce_tg(cls, message: types.Message):
+    async def parse_tg(cls, message: types.Message):
         chat_id = message.chat.id
         if message.message_thread_id:
             chat_id = message.message_thread_id
@@ -36,7 +36,6 @@ class MessageDTO(BaseModel):
         elif message.sticker:  # или если есть стикер, берёт id
             meta['sticker'] = message.sticker.file_id
             
-
         return cls(
             social = 'tg',
             chat_id = chat_id,
@@ -53,6 +52,7 @@ class MessageDTO(BaseModel):
             chat_id = chat_id,
             sender_name = 'MEDIATOR',
             text = text,
-            image = None,
+            image = image,
             meta = {},
         )
+    

@@ -4,6 +4,7 @@ from const import GROUP_ID
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import FSInputFile
 import requests
+import asyncio
 
 
 class BotTopic:
@@ -56,11 +57,14 @@ class BotTopic:
         except TelegramBadRequest: pass
 
     # открытие закрытого топика
-    async def reopen(self, topic_id: int):
+    async def reopen(self, topic_id: int, retry_flag: True):
         try:
             await bot.reopen_forum_topic(GROUP_ID, topic_id)
-        except TelegramBadRequest: pass
-
+        except Exception:
+            if retry_flag:  # ждёт 3 секунды, рекурсивно вызывает себя один раз
+                asyncio.sleep(3)
+                await self.reopen(topic_id, retry_flag=False)
+            
     # удаление топика
     async def delete(self, topic_id: int):
         await bot.delete_forum_topic(GROUP_ID, topic_id)

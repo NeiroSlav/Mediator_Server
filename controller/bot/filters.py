@@ -7,10 +7,9 @@ from const import GROUP_ID, BROADCAST_ID, BOT_ID
 
 # класс фильтрации топика
 class MyTopicFilter(BaseFilter):
-    def __init__(self, broadcast: bool = False, from_bot: bool = False, is_command: bool = False):
+    def __init__(self, broadcast: bool = False, from_bot: bool = False):
         self.broadcast = broadcast
         self.from_bot = from_bot
-        self.is_command = is_command
 
     async def __call__(self, message: Message) -> bool:
 

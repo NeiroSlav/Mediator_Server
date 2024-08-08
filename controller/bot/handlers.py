@@ -12,7 +12,7 @@ from model import *
 # хендлер команды /close из топика
 @dp.message(MyTopicFilter(), Command("close"))
 async def get_topic_close(message: Message):
-    message_dto = await MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parse_tg(message)
     try:
         await handle_topic_close(message_dto)
     except PermissionError:
@@ -22,7 +22,7 @@ async def get_topic_close(message: Message):
 # хендлер команды /ban из топика
 @dp.message(MyTopicFilter(), Command("ban"))
 async def get_topic_ban(message: Message):
-    message_dto = await MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parse_tg(message)
     try:
         await handle_topic_ban(message_dto)
     except PermissionError:
@@ -32,7 +32,7 @@ async def get_topic_ban(message: Message):
 # хендлер команды /unban из топика
 @dp.message(MyTopicFilter(), Command("unban"))
 async def get_topic_unban(message: Message):
-    message_dto = await MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parse_tg(message)
     try:
         await handle_topic_unban(message_dto)
     except PermissionError:
@@ -42,7 +42,7 @@ async def get_topic_unban(message: Message):
 # хендлер сообщения сотрудника из топика
 @dp.message(MyTopicFilter())
 async def get_topic_message(message: Message):
-    message_dto = await MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parse_tg(message)
     try:
         await handle_topic_message(message_dto)
     except PermissionError:  # в случае, если топик забанен
@@ -60,12 +60,12 @@ async def get_topic_bot_message(message: Message):
 # хендлер сообщения /broadcast из чата бродкаста
 @dp.message(MyTopicFilter(broadcast=True), Command("broadcast"))
 async def get_broadcast_message(message: Message):
-    message_dto = await MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parse_tg(message)
     await handle_broadcast_message(message_dto)
 
 
 # хендлер сообщения /suffix из чата бродкаста
 @dp.message(MyTopicFilter(broadcast=True), Command("suffix"))
 async def get_broadcast_message(message: Message):
-    message_dto = await MessageDTO.parce_tg(message)
+    message_dto = await MessageDTO.parse_tg(message)
     await handle_suffix_message(message_dto)
