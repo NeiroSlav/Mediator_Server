@@ -57,7 +57,7 @@ class BotTopic:
         except TelegramBadRequest: pass
 
     # открытие закрытого топика
-    async def reopen(self, topic_id: int, retry_flag: True):
+    async def reopen(self, topic_id: int, retry_flag: bool = True):
         try:
             await bot.reopen_forum_topic(GROUP_ID, topic_id)
         except Exception:
