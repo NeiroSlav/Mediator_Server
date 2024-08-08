@@ -2,7 +2,9 @@ from structures import ChatLinksHandler
 from controller import MessageDTO
 
 
+# обрабатывает сообщение из топика
 async def handle_topic_message(message_dto: MessageDTO):
+    
     # если сообщение является комментарием, ничего не делать
     if message_dto.text and message_dto.text.startswith('/'):
         return

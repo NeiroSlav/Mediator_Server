@@ -1,8 +1,9 @@
 from structures import ChatLinksHandler, ChatLink
 from controller import MessageDTO, bot_topic
 from const import GREETING_TEXT, ABON_GOT_TEXT, CREATING_LOG
+from model.suffix_message import suffix
 
-
+# обрабатывает сообщение извне, пришедшее по http
 async def handle_foreign_message(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
@@ -45,10 +46,17 @@ async def handle_foreign_message(message_dto: MessageDTO):
 
 # приветствие абонента
 async def greet_abon(chat_link: ChatLink):
-    message_dto = MessageDTO.new(GREETING_TEXT)
+    text = GREETING_TEXT
+
+    # если включен режим суфикса,
+    if suffix['enabled']:  # добавляет его текст к приветствию
+        text += f'\n\n{suffix["text"]}'
+
+    # формирует приветственное сообщение абоненту
+    message_dto = MessageDTO.new(text)
     notification = MessageDTO.new(
         ABON_GOT_TEXT.format(
-            text=GREETING_TEXT
+            text=text
     ))
 
     await chat_link.abon_chat.send(message_dto)  # отправка абону приветственного текста

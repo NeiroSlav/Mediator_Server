@@ -3,6 +3,7 @@ from controller import MessageDTO, bot_topic
 from const import ABON_GOT_TEXT, BROADCAST_LOG
 
 
+# обрабатывает широковещательное сообщение
 async def handle_broadcast_message(message_dto: MessageDTO):
 
     # убирает префикс /broadcast

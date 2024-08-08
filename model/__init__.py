@@ -4,3 +4,4 @@ from model.topic_message import handle_topic_message
 from model.broadcast_message import handle_broadcast_message
 from model.topic_ban import handle_topic_ban
 from model.topic_unban import handle_topic_unban
+from model.suffix_message import handle_suffix_message

@@ -62,3 +62,10 @@ async def get_topic_bot_message(message: Message):
 async def get_broadcast_message(message: Message):
     message_dto = await MessageDTO.parce_tg(message)
     await handle_broadcast_message(message_dto)
+
+
+# хендлер сообщения /suffix из чата бродкаста
+@dp.message(MyTopicFilter(broadcast=True), Command("suffix"))
+async def get_broadcast_message(message: Message):
+    message_dto = await MessageDTO.parce_tg(message)
+    await handle_suffix_message(message_dto)

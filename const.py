@@ -14,13 +14,15 @@ NEED_BACKUP = True
 
 # текстовики
 GREETING_TEXT = 'Приветствуем! Мы ответим Вам при первой возможности.'
-ABON_GOT_TEXT = 'Абоненту отправлено сообщение:\n\n{text}'
+ABON_GOT_TEXT = 'Абоненту отправлено сообщение:\n---\n{text}'
+SUFFIX_COMMAND_TEXT = 'Режим: {status}\n---\nСообщение:\n---\n{text}'
+
 CREATING_LOG = 'Топик "{topic}" (#{social}) создан'
 CLOSING_LOG = '{name} закрыл топик "{topic}"'
 BANNING_LOG = '{name} забанил абонента "{topic}"'
 UNBANNING_LOG = '{name} разбанил абонента "{topic}"'
-BROADCAST_LOG = '{name}\n\nвсем ожидающим:\n\n{text}'
-POST_ERROR_LOG = 'Mediator_{social} помер (или притворяется):\n{error}'
+BROADCAST_LOG = '{name}\n---\nвсем ожидающим:\n---\n{text}'
+POST_ERROR_LOG = 'Mediator_{social} помер (или притворяется):\n---\n{error}'
 
 ABON_BAN_TEXT = '''
 Уважаемый абонент! В данный момент для Вас заблокирована возможность писать сообщения. Обратитесь пожалуйста в нашу службу технической поддержки:
