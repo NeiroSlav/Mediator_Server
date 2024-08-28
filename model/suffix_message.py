@@ -14,7 +14,7 @@ suffix = {
 async def handle_suffix_message(message_dto: MessageDTO):
 
     # убирает префикс /suffix или /suffix@botname
-    argument = message_dto.text.split()
+    argument = message_dto.text.split(' ')
     if len(argument) > 1:
         argument = ' '.join(argument[1:]).strip()
     else:
