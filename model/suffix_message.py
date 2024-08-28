@@ -13,8 +13,12 @@ suffix = {
 # обрабатывает команду /suffix
 async def handle_suffix_message(message_dto: MessageDTO):
 
-    # убирает префикс /suffix
-    argument = message_dto.text.replace('/suffix', '').strip()
+    # убирает префикс /suffix или /suffix@botname
+    argument = message_dto.text.split()
+    if len(argument) > 1:
+        argument = ' '.join(argument[1:]).strip()
+    else:
+        argument = ''
 
     if argument == 'enable':
         suffix['enabled'] = True
