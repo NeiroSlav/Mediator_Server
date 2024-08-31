@@ -1,7 +1,8 @@
 from structures import ChatLinksHandler, ChatLink
 from controller import MessageDTO, bot_topic
-from const import GREETING_TEXT, ABON_GOT_TEXT, CREATING_LOG
+from const import GREETING_TEXT, ABON_GOT_TEXT, CREATING_LOG, AUTO_CLOSE_TIME
 from model.suffix_message import suffix
+from model.sсheduler import Sсheduler
 
 
 # обрабатывает сообщение извне, пришедшее по http
@@ -43,6 +44,10 @@ async def handle_foreign_message(message_dto: MessageDTO):
     await chat_link.topic.send(message_dto)
     if greeting_flag:
         await greet_abon(chat_link)
+
+    # если установлено время автозакрытия топика, отложит этот процесс
+    if AUTO_CLOSE_TIME:
+        await Sсheduler.sсhedule_topic_close(chat_link.topic)
 
 
 # приветствие абонента

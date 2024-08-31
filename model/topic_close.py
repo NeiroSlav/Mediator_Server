@@ -1,6 +1,7 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import CLOSING_LOG
+from model.sсheduler import Sсheduler
 
 
 # обрабатывает закрытие топика
@@ -27,3 +28,6 @@ async def handle_topic_close(message_dto: MessageDTO):
             name=message_dto.sender_name,
             topic=chat_link.topic.name
     ))
+
+    # отменяет закрытие топика (если оно было)
+    Sсheduler.cancel_topic_close(chat_link.topic)

@@ -2,6 +2,8 @@ from controller import MessageDTO
 from controller import foreign_api
 
 
+# класс для работы с чатом абонента
+# осущестляет пересылку сообщения на другой микросервис
 class AbonChat:
     
     def __init__(self, social: str, chat_id: int):

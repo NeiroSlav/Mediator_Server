@@ -1,6 +1,7 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import ABON_GOT_TEXT, BROADCAST_LOG
+from model.sсheduler import Sсheduler
 
 
 # обрабатывает широковещательное сообщение
@@ -27,6 +28,9 @@ async def handle_broadcast_message(message_dto: MessageDTO):
         await chat_link.abon_chat.send(message_dto)  # отправляет сообщение абону
         await chat_link.topic.send(notification)     # отправляет инфу в топик
         await chat_link.topic.answer()               # меняет состояние топика
+
+        # планирует закрытие топика
+        Sсheduler.sсhedule_topic_close(chat_link.topic)
 
     await bot_topic.log(  # логгирует информацию о команде бродкаста
         BROADCAST_LOG.format(

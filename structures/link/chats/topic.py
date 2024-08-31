@@ -6,6 +6,7 @@ from controller import Backuper
 
 
 # класс работы с топиком
+# любые действия с топиком через него
 class GroupTopic:
     state: str
     name: str
@@ -48,8 +49,11 @@ class GroupTopic:
     # закрытие топика
     async def close(self):
         self.state = 'closed'
-        await self._set_color(STATE_COLORS['closed'])
-        await bot_topic.close(topic_id=self.id)
+        try:
+            await self._set_color(STATE_COLORS['closed'])
+            await bot_topic.close(topic_id=self.id)
+        except:
+            pass
         await self._backup()
 
     # открытие топика

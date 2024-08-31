@@ -1,6 +1,7 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import BANNING_LOG, ABON_BAN_TEXT
+from model.sсheduler import Sсheduler
 
 
 # обрабатывает бан абонента
@@ -32,3 +33,6 @@ async def handle_topic_ban(message_dto: MessageDTO):
             name=message_dto.sender_name,
             topic=chat_link.topic.name
     ))
+
+    # отменяет закрытие топика (если оно было)
+    Sсheduler.cancel_topic_close(chat_link.topic)
