@@ -19,6 +19,23 @@ async def get_topic_close(message: Message):
         await message.delete()
 
 
+# хендлер команды /hold из топика
+@dp.message(MyTopicFilter(), Command("hold"))
+async def get_topic_hold(message: Message):
+    message_dto = await MessageDTO.parse_tg(message)
+    try:
+        await handle_topic_hold(message_dto)
+    except PermissionError:
+        await message.delete()
+
+
+# хендлен команды /status из топика
+@dp.message(MyTopicFilter(), Command("status"))
+async def get_topic_status(message: Message):
+    message_dto = await MessageDTO.parse_tg(message)
+    await handle_topic_status(message_dto)
+
+
 # хендлер команды /ban из топика
 @dp.message(MyTopicFilter(), Command("ban"))
 async def get_topic_ban(message: Message):

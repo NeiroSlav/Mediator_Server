@@ -8,6 +8,7 @@ from controller import Backuper
 # класс работы с топиком
 # любые действия с топиком через него
 class GroupTopic:
+    hold: bool
     state: str
     name: str
     id: int
@@ -16,6 +17,7 @@ class GroupTopic:
     @classmethod
     def restore(cls, **kwargs):
         self = cls()
+        self.hold = False
         self.state = kwargs.get('state')
         self.name = kwargs.get('topic_name')
         self.id = kwargs.get('topic_id')
@@ -29,6 +31,7 @@ class GroupTopic:
             image_color=SOCIAL_COLORS[social],
         )
         self = cls()
+        self.hold = False
         self.state = 'opened'
         self.name = str(name)
         self.id = id
@@ -49,6 +52,7 @@ class GroupTopic:
     # закрытие топика
     async def close(self):
         self.state = 'closed'
+        self.hold = False
         try:
             await self._set_color(STATE_COLORS['closed'])
             await bot_topic.close(topic_id=self.id)

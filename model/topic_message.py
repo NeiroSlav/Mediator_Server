@@ -30,6 +30,6 @@ async def handle_topic_message(message_dto: MessageDTO):
     message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)
 
-    # если установлено время автозакрытия топика, отложит этот процесс
-    if AUTO_CLOSE_TIME:
+    # если установлено время автозакрытия топика, и топик не удержан, отложит этот процесс
+    if AUTO_CLOSE_TIME and not chat_link.topic.hold:
         await Sсheduler.sсhedule_topic_close(chat_link.topic)

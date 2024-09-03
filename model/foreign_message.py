@@ -45,8 +45,8 @@ async def handle_foreign_message(message_dto: MessageDTO):
     if greeting_flag:
         await greet_abon(chat_link)
 
-    # если установлено время автозакрытия топика, отложит этот процесс
-    if AUTO_CLOSE_TIME:
+    # если установлено время автозакрытия топика, и топик не удержан, отложит этот процесс
+    if AUTO_CLOSE_TIME and not chat_link.topic.hold:
         await Sсheduler.sсhedule_topic_close(chat_link.topic)
 
 

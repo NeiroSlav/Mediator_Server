@@ -22,6 +22,7 @@ SUFFIX_COMMAND_TEXT = 'Режим: {status}\n---\nСообщение:\n---\n{tex
 
 CREATING_LOG = 'Топик "{topic}" (#{social}) создан'
 CLOSING_LOG = '{name} закрыл топик "{topic}"'
+HOLDING_LOG = '{name} удержал топик "{topic}"'
 BANNING_LOG = '{name} забанил абонента "{topic}"'
 UNBANNING_LOG = '{name} разбанил абонента "{topic}"'
 BROADCAST_LOG = '{name}\n---\nвсем ожидающим:\n---\n{text}'

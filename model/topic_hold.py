@@ -1,11 +1,11 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
-from const import CLOSING_LOG
+from const import HOLDING_LOG
 from model.sсheduler import Sсheduler
 
 
-# обрабатывает закрытие топика
-async def handle_topic_close(message_dto: MessageDTO):
+# обрабатывает удержание топика от закрытия
+async def handle_topic_hold(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
     topic_id = message_dto.chat_id
@@ -19,16 +19,13 @@ async def handle_topic_close(message_dto: MessageDTO):
     if chat_link.topic.state == 'banned':
         raise PermissionError
 
-    # если сессия есть - закрываем, меняем цвет, ставим флаг "отвечено", пишем в лог
-    await chat_link.topic.close()
-
-    # логирование информации о закрытии топика
+    # логирование информации об удержании топика
     await bot_topic.log(
-        CLOSING_LOG.format(
+        HOLDING_LOG.format(
             name=message_dto.sender_name,
             topic=chat_link.topic.name
     ))
 
     # отменяет закрытие топика (если оно было)
     Sсheduler.cancel_topic_close(chat_link.topic)
-    chat_link.topic.hold = False
+    chat_link.topic.hold = True

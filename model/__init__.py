@@ -5,3 +5,5 @@ from model.broadcast_message import handle_broadcast_message
 from model.topic_ban import handle_topic_ban
 from model.topic_unban import handle_topic_unban
 from model.suffix_message import handle_suffix_message
+from model.topic_hold import handle_topic_hold
+from model.topic_status import handle_topic_status
