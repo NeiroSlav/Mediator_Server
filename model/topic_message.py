@@ -22,11 +22,17 @@ async def handle_topic_message(message_dto: MessageDTO):
     if chat_link.topic.state == 'banned':
         raise PermissionError
 
-    # ставим флаг "отвечено", меняем цвет
-    await chat_link.topic.answer()
+    # если топик ещё не "отвеченный" ставим флаг, меняем цвет
     if chat_link.topic.state != 'answered':
+        chat_link.topic.user = message_dto.meta['user']
         await chat_link.topic.answer()
 
+    # или если топик взял новый сотрудник, обновляем эти данные
+    elif chat_link.topic.user != message_dto.meta['user']:
+        chat_link.topic.user = message_dto.meta['user']
+        await chat_link.topic.update_sign()
+
+    # присваиваем сообщению id лички абона, отправляем наружу
     message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)
 

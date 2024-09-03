@@ -36,6 +36,8 @@ class MessageDTO(BaseModel):
         elif message.sticker:  # или если есть стикер, берёт id
             meta['sticker'] = message.sticker.file_id
             
+        meta['user'] = cls.shrink_username(message.from_user.username)
+        
         return cls(
             social = 'tg',
             chat_id = chat_id,
@@ -55,4 +57,12 @@ class MessageDTO(BaseModel):
             image = image,
             meta = {},
         )
+    
+    @staticmethod
+    def shrink_username(username: str) -> str:
+        if not username:
+            return 'anon'
+        if len(username) < 5:
+            return username.lower()
+        return username[0:5].lower()
     
