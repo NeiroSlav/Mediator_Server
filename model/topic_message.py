@@ -23,19 +23,13 @@ async def handle_topic_message(message_dto: MessageDTO):
         raise PermissionError
 
     # если топик ещё не "отвеченный" ставим флаг, меняем цвет
-    if chat_link.topic.state != "answered":
-        chat_link.topic.user = message_dto.meta["user"]
-        await chat_link.topic.answer()
-
-    # или если топик взял новый сотрудник, обновляем эти данные
-    elif chat_link.topic.user != message_dto.meta["user"]:
-        chat_link.topic.user = message_dto.meta["user"]
-        await chat_link.topic.update_sign()
+    user = message_dto.meta["user"]
+    await chat_link.topic.answer(user)
 
     # присваиваем сообщению id лички абона, отправляем наружу
     message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)
 
     # если установлено время автозакрытия топика, и топик не удержан, отложит этот процесс
-    if AUTO_CLOSE_TIME and not chat_link.topic.hold:
+    if AUTO_CLOSE_TIME and not chat_link.topic.meta.hold:
         await Sсheduler.sсhedule_topic_close(chat_link.topic)

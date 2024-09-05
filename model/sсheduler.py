@@ -6,12 +6,15 @@ from const import AUTO_CLOSE_TIME
 class Sсheduler:
     closing_topic_timers = {}  # cловарь для хранения таймеров по идентификатору топика
 
-    # планируем выполнения асинхронной задачи через время
+    # планируем выполнение асинхронной задачи через время
     @staticmethod
     def _set_event(event: callable, delay: int):
-        loop = asyncio.get_event_loop()
-        handle = loop.call_later(delay, asyncio.create_task, event())
-        return handle
+        async def delayed_task():
+            await asyncio.sleep(delay)
+            await event()
+
+        # Возвращаем саму задачу, чтобы можно было её отменить позже
+        return asyncio.create_task(delayed_task())
 
     # планируем закрытие топика через время
     @classmethod

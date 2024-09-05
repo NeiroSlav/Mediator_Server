@@ -28,10 +28,10 @@ async def handle_broadcast_message(message_dto: MessageDTO):
 
         await chat_link.abon_chat.send(message_dto)  # отправляет сообщение абону
         await chat_link.topic.send(notification)  # отправляет инфу в топик
-        await chat_link.topic.answer()  # меняет состояние топика
+        await chat_link.topic.answer("broad")  # меняет состояние топика
 
         # планирует закрытие топика
-        Sсheduler.sсhedule_topic_close(chat_link.topic)
+        await Sсheduler.sсhedule_topic_close(chat_link.topic)
 
     await bot_topic.log(  # логгирует информацию о команде бродкаста
         BROADCAST_LOG.format(name=message_dto.sender_name, text=message_dto.text)

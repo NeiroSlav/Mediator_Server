@@ -1,15 +1,14 @@
 from pprint import pprint
 from controller import bot_topic, MessageDTO
 from const import SOCIAL_COLORS, STATE_COLORS
-from structures.utils import get_color
 from controller import Backuper
+from structures.link.chats.topic_utils import TopicMeta
 
 
 # класс работы с топиком
 # любые действия с топиком через него
 class GroupTopic:
-    hold: bool
-    user: str
+    meta: TopicMeta
     state: str
     name: str
     id: int
@@ -18,26 +17,23 @@ class GroupTopic:
     @classmethod
     def restore(cls, **kwargs):
         self = cls()
-        self.hold = False
-        self.user = None
         self.state = kwargs.get("state")
         self.name = kwargs.get("topic_name")
         self.id = kwargs.get("topic_id")
+        self.meta = TopicMeta(self.name)
         return self
 
     # фабричный метод создания объекта
     @classmethod
     async def create(cls, name: str, social: str):
-        id = await bot_topic.create(
-            f'{get_color(STATE_COLORS["opened"])} {name}',
+        self = cls()
+        self.name = str(name)
+        self.meta = TopicMeta(self.name)
+        self.state = "opened"
+        self.id = await bot_topic.create(
+            name=self.meta.new_sign(self.name, self.state),
             image_color=SOCIAL_COLORS[social],
         )
-        self = cls()
-        self.hold = False
-        self.user = None
-        self.state = "opened"
-        self.name = str(name)
-        self.id = id
         return self
 
     # отправка сообщения в топик
@@ -46,22 +42,18 @@ class GroupTopic:
         await bot_topic.send(message_dto)
 
     # смена юзера и цвета перед именем топика
-    async def _set_sign(self, color: str):
-        name = f"{get_color(color)} {self.name}"
-        if self.user:
-            name = f"{self.user} {name}"
-        await bot_topic.set_name(topic_id=self.id, name=name)
-
     async def update_sign(self):
-        await self._set_sign(STATE_COLORS[self.state])
+        last = self.meta.sign
+        new = self.meta.new_sign(self.name, self.state)
+        if last != new:
+            await bot_topic.set_name(topic_id=self.id, name=new)
 
     # закрытие топика
     async def close(self):
         self.state = "closed"
-        self.hold = False
-        self.user = None
+        self.meta.reset()
         try:
-            await self._set_sign(STATE_COLORS["closed"])
+            await self.update_sign()
             await bot_topic.close(topic_id=self.id)
         except:
             pass
@@ -70,21 +62,22 @@ class GroupTopic:
     # открытие топика
     async def reopen(self):
         self.state = "opened"
-        await self._set_sign(STATE_COLORS["opened"])
+        await self.update_sign()
         await bot_topic.reopen(topic_id=self.id)
         await self._backup()
 
     # бан топика
     async def ban(self):
         self.state = "banned"
-        self.user = None
-        await self._set_sign(STATE_COLORS["banned"])
+        self.meta.reset()
+        await self.update_sign()
         await self._backup()
 
     # бан топика
-    async def answer(self):
+    async def answer(self, user: str):
         self.state = "answered"
-        await self._set_sign(STATE_COLORS["answered"])
+        self.meta.set_user(user)
+        await self.update_sign()
         await self._backup()
 
     # бекап состояния в базу

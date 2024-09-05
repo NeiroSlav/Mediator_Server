@@ -13,7 +13,7 @@ CLIENT_PORTS = {
 NEED_BACKUP = True
 
 # время после сообщения, через которое топик закроется
-AUTO_CLOSE_TIME = 1800  # если закрытие не нужно - 0
+AUTO_CLOSE_TIME = 18  # если закрытие не нужно - 0
 
 # текстовики
 GREETING_TEXT = (

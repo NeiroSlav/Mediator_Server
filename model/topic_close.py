@@ -29,4 +29,3 @@ async def handle_topic_close(message_dto: MessageDTO):
 
     # отменяет закрытие топика (если оно было)
     Sсheduler.cancel_topic_close(chat_link.topic)
-    chat_link.topic.hold = False
