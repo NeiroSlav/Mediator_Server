@@ -19,10 +19,10 @@ class GroupTopic:
     def restore(cls, **kwargs):
         self = cls()
         self.hold = False
-        self.user = ''
-        self.state = kwargs.get('state')
-        self.name = kwargs.get('topic_name')
-        self.id = kwargs.get('topic_id')
+        self.user = None
+        self.state = kwargs.get("state")
+        self.name = kwargs.get("topic_name")
+        self.id = kwargs.get("topic_id")
         return self
 
     # фабричный метод создания объекта
@@ -34,8 +34,8 @@ class GroupTopic:
         )
         self = cls()
         self.hold = False
-        self.user = ''
-        self.state = 'opened'
+        self.user = None
+        self.state = "opened"
         self.name = str(name)
         self.id = id
         return self
@@ -47,9 +47,9 @@ class GroupTopic:
 
     # смена юзера и цвета перед именем топика
     async def _set_sign(self, color: str):
-        name=f'{get_color(color)} {self.name}'
+        name = f"{get_color(color)} {self.name}"
         if self.user:
-            name = f'{self.user} {name}'
+            name = f"{self.user} {name}"
         await bot_topic.set_name(topic_id=self.id, name=name)
 
     async def update_sign(self):
@@ -57,11 +57,11 @@ class GroupTopic:
 
     # закрытие топика
     async def close(self):
-        self.state = 'closed'
+        self.state = "closed"
         self.hold = False
-        self.user = ''
+        self.user = None
         try:
-            await self._set_sign(STATE_COLORS['closed'])
+            await self._set_sign(STATE_COLORS["closed"])
             await bot_topic.close(topic_id=self.id)
         except:
             pass
@@ -69,22 +69,22 @@ class GroupTopic:
 
     # открытие топика
     async def reopen(self):
-        self.state = 'opened'
-        await self._set_sign(STATE_COLORS['opened'])
+        self.state = "opened"
+        await self._set_sign(STATE_COLORS["opened"])
         await bot_topic.reopen(topic_id=self.id)
         await self._backup()
 
     # бан топика
     async def ban(self):
-        self.state = 'banned'
-        self.user = ''
-        await self._set_sign(STATE_COLORS['banned'])
+        self.state = "banned"
+        self.user = None
+        await self._set_sign(STATE_COLORS["banned"])
         await self._backup()
 
     # бан топика
     async def answer(self):
-        self.state = 'answered'
-        await self._set_sign(STATE_COLORS['answered'])
+        self.state = "answered"
+        await self._set_sign(STATE_COLORS["answered"])
         await self._backup()
 
     # бекап состояния в базу

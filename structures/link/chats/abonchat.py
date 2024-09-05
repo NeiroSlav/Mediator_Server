@@ -5,7 +5,7 @@ from controller import foreign_api
 # класс для работы с чатом абонента
 # осущестляет пересылку сообщения на другой микросервис
 class AbonChat:
-    
+
     def __init__(self, social: str, chat_id: int):
         self.social: str = social
         self.id: int = chat_id
@@ -14,8 +14,8 @@ class AbonChat:
     @classmethod
     def restore(cls, **kwargs):
         return cls(
-            social=kwargs.get('social'),
-            chat_id=kwargs.get('abon_id'),
+            social=kwargs.get("social"),
+            chat_id=kwargs.get("abon_id"),
         )
 
     # отправка сообщения в чат абонента

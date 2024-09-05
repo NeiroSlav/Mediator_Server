@@ -10,6 +10,7 @@ app = FastAPI()
 # процесс запуска сервера
 async def run_server():
     import uvicorn
+
     config = uvicorn.Config(app, host="0.0.0.0", port=SERVER_PORT)
     server = uvicorn.Server(config)
     await server.serve()

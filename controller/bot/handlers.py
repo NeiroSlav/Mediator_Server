@@ -9,6 +9,7 @@ from controller.message_dto import MessageDTO
 
 from model import *
 
+
 # хендлер команды /close из топика
 @dp.message(MyTopicFilter(), Command("close"))
 async def get_topic_close(message: Message):

@@ -14,8 +14,8 @@ async def handle_topic_unban(message_dto: MessageDTO):
     if not chat_link:
         await bot_topic.delete(topic_id)
         return
-    
-    if not chat_link.topic.state == 'banned':
+
+    if not chat_link.topic.state == "banned":
         raise PermissionError
 
     # если сессия есть - закрываем топик, пишем в лог
@@ -23,7 +23,5 @@ async def handle_topic_unban(message_dto: MessageDTO):
 
     # логирование информации о бане абонента
     await bot_topic.log(
-        UNBANNING_LOG.format(
-            name=message_dto.sender_name,
-            topic=chat_link.topic.name
-    ))
+        UNBANNING_LOG.format(name=message_dto.sender_name, topic=chat_link.topic.name)
+    )

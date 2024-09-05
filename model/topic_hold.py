@@ -15,16 +15,14 @@ async def handle_topic_hold(message_dto: MessageDTO):
     if not chat_link:
         await bot_topic.delete(topic_id)
         return
-    
-    if chat_link.topic.state == 'banned':
+
+    if chat_link.topic.state == "banned":
         raise PermissionError
 
     # логирование информации об удержании топика
     await bot_topic.log(
-        HOLDING_LOG.format(
-            name=message_dto.sender_name,
-            topic=chat_link.topic.name
-    ))
+        HOLDING_LOG.format(name=message_dto.sender_name, topic=chat_link.topic.name)
+    )
 
     # отменяет закрытие топика (если оно было)
     Sсheduler.cancel_topic_close(chat_link.topic)

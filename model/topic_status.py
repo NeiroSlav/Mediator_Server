@@ -15,7 +15,7 @@ async def handle_topic_status(message_dto: MessageDTO):
         return
 
     # преобразуем инфу линка в слвоварь, красиво собираем
-    status_info = ''
+    status_info = ""
     for key, elem in chat_link.to_dict().items():
         status_info += f"{key}:\n{elem}\n\n"
 

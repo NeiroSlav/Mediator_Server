@@ -12,21 +12,21 @@ class ForeignApi:
         port = CLIENT_PORTS[message_dto.social]
         try:
             await self._send_post_request(
-                f'http://127.0.0.1:{port}/', 
-                message_dto.model_dump_json()
+                f"http://127.0.0.1:{port}/", message_dto.model_dump_json()
             )
         except Exception as e:
-            if not e: 
+            if not e:
                 return
-            
+
             await bot_topic.log(
                 POST_ERROR_LOG.format(
                     social=message_dto.social,
                     error=e,
-            ))
+                )
+            )
             raise e
 
-    # отправляет post-запросс по url с указаными данными 
+    # отправляет post-запросс по url с указаными данными
     @staticmethod
     async def _send_post_request(url: str, data: json):
         async with httpx.AsyncClient() as client:

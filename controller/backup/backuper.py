@@ -1,19 +1,22 @@
 from controller.backup.init import database, abonents
 from const import NEED_BACKUP
 
+
 class Backuper:
 
     # добавление новой записи в базу
     @staticmethod
-    async def add(topic_id: int, topic_name: str, state: str, abon_id: int, social: str):
+    async def add(
+        topic_id: int, topic_name: str, state: str, abon_id: int, social: str
+    ):
         if not NEED_BACKUP:
             return
-        
+
         await database.connect()
         query = abonents.insert().values(
-            topic_id=topic_id, 
-            topic_name=topic_name, 
-            state=state, 
+            topic_id=topic_id,
+            topic_name=topic_name,
+            state=state,
             abon_id=abon_id,
             social=social,
         )
@@ -27,7 +30,11 @@ class Backuper:
             return
 
         await database.connect()
-        query = abonents.update().where(abonents.c.topic_id == topic_id).values(state=new_state)
+        query = (
+            abonents.update()
+            .where(abonents.c.topic_id == topic_id)
+            .values(state=new_state)
+        )
         await database.execute(query)
         await database.disconnect()
 

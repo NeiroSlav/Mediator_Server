@@ -14,7 +14,7 @@ class MyTopicFilter(BaseFilter):
     async def __call__(self, message: Message) -> bool:
 
         # если чат не группа, или супергруппа
-        if message.chat.type not in ('group', 'supergroup'):
+        if message.chat.type not in ("group", "supergroup"):
             return False
 
         # если сообщение не из нужной группы
@@ -30,5 +30,3 @@ class MyTopicFilter(BaseFilter):
             return False
 
         return True
-
-

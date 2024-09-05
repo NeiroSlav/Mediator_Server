@@ -22,23 +22,21 @@ class ChatLinksHandler:
 
     @classmethod  # поиск линка по id абонента
     def get_by_abon_id(cls, chat_id: int, social: str) -> ChatLink | None:
-        filtered = list(filter(
-            lambda x: x.abon_chat.id == chat_id and x.abon_chat.social == social,
-            cls._all_chat_links
-        ))
+        filtered = list(
+            filter(
+                lambda x: x.abon_chat.id == chat_id and x.abon_chat.social == social,
+                cls._all_chat_links,
+            )
+        )
         if filtered:
             return filtered[0]
 
     @classmethod  # поиск линка по id топика
     def get_by_topic_id(cls, topic_id: int) -> ChatLink | None:
-        filtered = list(filter(
-            lambda x: x.topic.id == topic_id,
-            cls._all_chat_links
-        ))
+        filtered = list(filter(lambda x: x.topic.id == topic_id, cls._all_chat_links))
         if filtered:
             return filtered[0]
 
     @classmethod  # отдаёт копию списка всех чатов
     def get_all_links(cls) -> list[ChatLink]:
         return cls._all_chat_links[:]
-

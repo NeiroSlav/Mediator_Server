@@ -15,8 +15,8 @@ async def handle_topic_close(message_dto: MessageDTO):
     if not chat_link:
         await bot_topic.delete(topic_id)
         return
-    
-    if chat_link.topic.state == 'banned':
+
+    if chat_link.topic.state == "banned":
         raise PermissionError
 
     # если сессия есть - закрываем, меняем цвет, ставим флаг "отвечено", пишем в лог
@@ -24,10 +24,8 @@ async def handle_topic_close(message_dto: MessageDTO):
 
     # логирование информации о закрытии топика
     await bot_topic.log(
-        CLOSING_LOG.format(
-            name=message_dto.sender_name,
-            topic=chat_link.topic.name
-    ))
+        CLOSING_LOG.format(name=message_dto.sender_name, topic=chat_link.topic.name)
+    )
 
     # отменяет закрытие топика (если оно было)
     Sсheduler.cancel_topic_close(chat_link.topic)

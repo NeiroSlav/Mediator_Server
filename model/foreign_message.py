@@ -14,28 +14,29 @@ async def handle_foreign_message(message_dto: MessageDTO):
         message_dto.social,
     )
     greeting_flag = False
-    
+
     # если абонент обращается в первый раз
     if not chat_link:
         chat_link = await ChatLink.create(
             social=message_dto.social,
             chat_id=message_dto.chat_id,
-            name=message_dto.sender_name
+            name=message_dto.sender_name,
         )
         await ChatLinksHandler.add(chat_link)
         await bot_topic.log(
             CREATING_LOG.format(
                 topic=chat_link.topic.name,
                 social=message_dto.social,
-        ))
+            )
+        )
         greeting_flag = True
 
     # если абонент забанен
-    elif chat_link.topic.state == 'banned':
+    elif chat_link.topic.state == "banned":
         return
-    
+
     # если абонент когда-то обращался, но топик уже закрыт
-    elif chat_link.topic.state == 'closed':
+    elif chat_link.topic.state == "closed":
         await chat_link.topic.reopen()
         greeting_flag = True
 
@@ -55,15 +56,14 @@ async def greet_abon(chat_link: ChatLink):
     text = GREETING_TEXT
 
     # если включен режим суфикса,
-    if suffix['enabled']:  # добавляет его текст к приветствию
+    if suffix["enabled"]:  # добавляет его текст к приветствию
         text += f'\n\n{suffix["text"]}'
 
     # формирует приветственное сообщение абоненту
     message_dto = MessageDTO.new(text)
-    notification = MessageDTO.new(
-        ABON_GOT_TEXT.format(
-            text=text
-    ))
+    notification = MessageDTO.new(ABON_GOT_TEXT.format(text=text))
 
     await chat_link.abon_chat.send(message_dto)  # отправка абону приветственного текста
-    await chat_link.topic.send(notification)     # отправка в топик информации о приветствии
+    await chat_link.topic.send(
+        notification
+    )  # отправка в топик информации о приветствии

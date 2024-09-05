@@ -4,39 +4,31 @@ from const import GREETING_TEXT, SUFFIX_COMMAND_TEXT, BROADCAST_ID
 
 
 # текст после приветствия абонента
-suffix = {
-    'enabled': False,
-    'text': 'тестовое сообщение ивр'
-}
+suffix = {"enabled": False, "text": "тестовое сообщение ивр"}
 
 
 # обрабатывает команду /suffix
 async def handle_suffix_message(message_dto: MessageDTO):
 
     # убирает префикс /suffix или /suffix@botname
-    argument = message_dto.text.split(' ')
+    argument = message_dto.text.split(" ")
     if len(argument) > 1:
-        argument = ' '.join(argument[1:]).strip()
+        argument = " ".join(argument[1:]).strip()
     else:
-        argument = ''
+        argument = ""
 
-    if argument == 'enable':
-        suffix['enabled'] = True
-        
-    elif argument == 'disable':
-        suffix['enabled'] = False
+    if argument == "enable":
+        suffix["enabled"] = True
+
+    elif argument == "disable":
+        suffix["enabled"] = False
 
     elif argument:
-        suffix['text'] = argument
+        suffix["text"] = argument
 
     # формирует текст ответа на команду /suffix
-    text = SUFFIX_COMMAND_TEXT.format(
-        status=suffix['enabled'], 
-        text=suffix['text']
-    )    
+    text = SUFFIX_COMMAND_TEXT.format(status=suffix["enabled"], text=suffix["text"])
     # отправляет в чат ответ на команду
-    return await bot_topic.send(  
-        message_dto=MessageDTO.new(
-            text=text,
-            chat_id=BROADCAST_ID
-    ))
+    return await bot_topic.send(
+        message_dto=MessageDTO.new(text=text, chat_id=BROADCAST_ID)
+    )
