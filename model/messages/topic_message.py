@@ -1,5 +1,5 @@
 from structures import ChatLinksHandler
-from controller import MessageDTO
+from controller import MessageDTO, bot_topic
 from const import AUTO_CLOSE_TIME
 from model.sсheduler import Sсheduler
 
@@ -16,7 +16,8 @@ async def handle_topic_message(message_dto: MessageDTO):
     chat_link = ChatLinksHandler.get_by_topic_id(topic_id=topic_id)
 
     # если сессии нет, или топик закрыт
-    if not chat_link or chat_link.topic.state == "closed":
+    if not chat_link:
+        await bot_topic.delete(topic_id)
         return
 
     if chat_link.topic.state == "banned":

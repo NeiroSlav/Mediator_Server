@@ -29,7 +29,6 @@ class TopicMeta:
         self.backuped = False
 
     def set_start(self):
-        print("\nStarted")
         self.start_time = datetime.now()
 
     def set_answer(self):
