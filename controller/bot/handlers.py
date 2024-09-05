@@ -4,6 +4,7 @@ import asyncio
 
 from controller.bot.init import dp
 from controller.bot.filters import MyTopicFilter
+from controller.backup.statistics import Statist
 from controller import bot_topic
 from controller.message_dto import MessageDTO
 
@@ -82,8 +83,15 @@ async def get_broadcast_message(message: Message):
     await handle_broadcast_message(message_dto)
 
 
+# хендлер сообщения /statist из чата бродкаста
+@dp.message(MyTopicFilter(broadcast=True), Command("statist"))
+async def get_statist_message(message: Message):
+    data = await Statist.count()
+    await message.answer(f"DB_count: {data}")
+
+
 # хендлер сообщения /suffix из чата бродкаста
 @dp.message(MyTopicFilter(broadcast=True), Command("suffix"))
-async def get_broadcast_message(message: Message):
+async def get_suffix_message(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
     await handle_suffix_message(message_dto)

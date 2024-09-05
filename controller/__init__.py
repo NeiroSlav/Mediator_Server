@@ -2,6 +2,7 @@ from controller.post.request import foreign_api
 from controller.bot.controll import bot_topic
 
 from controller.backup.backuper import Backuper
+from controller.backup.statistics import Statist
 from controller.message_dto import MessageDTO
 
 from controller.api.income_api import *

@@ -34,6 +34,7 @@ class GroupTopic:
             name=self.meta.new_sign(self.name, self.state),
             image_color=SOCIAL_COLORS[social],
         )
+        self.meta.set_start()
         return self
 
     # отправка сообщения в топик
@@ -43,15 +44,15 @@ class GroupTopic:
 
     # смена юзера и цвета перед именем топика
     async def update_sign(self):
-        last = self.meta.sign
-        new = self.meta.new_sign(self.name, self.state)
-        if last != new:
-            await bot_topic.set_name(topic_id=self.id, name=new)
+        new_sign = self.meta.new_sign(self.name, self.state)
+        if new_sign:
+            await bot_topic.set_name(topic_id=self.id, name=new_sign)
 
     # закрытие топика
     async def close(self):
         self.state = "closed"
-        self.meta.reset()
+        self.meta.set_finish()
+        await self.meta.backup_stats()
         try:
             await self.update_sign()
             await bot_topic.close(topic_id=self.id)
@@ -62,6 +63,7 @@ class GroupTopic:
     # открытие топика
     async def reopen(self):
         self.state = "opened"
+        self.meta.set_start()
         await self.update_sign()
         await bot_topic.reopen(topic_id=self.id)
         await self._backup()
@@ -69,14 +71,15 @@ class GroupTopic:
     # бан топика
     async def ban(self):
         self.state = "banned"
-        self.meta.reset()
+        self.meta.set_finish()
         await self.update_sign()
         await self._backup()
 
     # бан топика
     async def answer(self, user: str):
         self.state = "answered"
-        self.meta.set_user(user)
+        self.meta.set_answer()
+        self.meta.user = user
         await self.update_sign()
         await self._backup()
 

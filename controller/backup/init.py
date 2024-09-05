@@ -1,4 +1,13 @@
-from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table
+from sqlalchemy import (
+    create_engine,
+    Column,
+    Integer,
+    String,
+    MetaData,
+    Table,
+    Date,
+    Time,
+)
 from databases import Database
 
 
@@ -15,6 +24,17 @@ abonents = Table(
     Column("state", String, nullable=False),
     Column("abon_id", Integer, nullable=False),
     Column("social", String, nullable=False),
+)
+
+dialogs = Table(
+    "dialogs",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("date", Date, nullable=False),
+    Column("start_time", Time, nullable=False),
+    Column("answer_rate", Time, nullable=False),
+    Column("finish_rate", Time, nullable=False),
+    Column("user", String, nullable=False),
 )
 
 # Создание базы данных и таблицы, если они не существуют

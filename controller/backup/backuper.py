@@ -7,7 +7,11 @@ class Backuper:
     # добавление новой записи в базу
     @staticmethod
     async def add(
-        topic_id: int, topic_name: str, state: str, abon_id: int, social: str
+        topic_id: int,
+        topic_name: str,
+        state: str,
+        abon_id: int,
+        social: str,
     ):
         if not NEED_BACKUP:
             return
