@@ -36,8 +36,8 @@ class ChatLink:
 
     # прощание с абонентом, если топик "отвеченный", закрытие
     async def say_goodbye(self):
-        if self.topic.state == "answered":
-            await self.abon_chat.send(MessageDTO.new(GOODBYE_TEXT))
+        # if self.topic.state == "answered":
+        #     await self.abon_chat.send(MessageDTO.new(GOODBYE_TEXT))
         await self.topic.close()
 
     def __str__(self) -> str:
