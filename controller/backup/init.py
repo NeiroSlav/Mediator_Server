@@ -11,7 +11,7 @@ from sqlalchemy import (
 from databases import Database
 
 
-DATABASE_URL = "sqlite:///./database.db"
+DATABASE_URL = "sqlite:///../database.db"
 
 database = Database(DATABASE_URL)
 metadata = MetaData()
