@@ -62,10 +62,11 @@ class TopicMeta:
     def new_sign(self, state: str) -> str | None:
         last_sign = self.sign
 
-        color = get_color(STATE_COLORS[state])
-        self.sign = f"{color} {self.name}"
+        color_emoji = get_color(STATE_COLORS[state])
         if self.user:
-            self.sign = f"{self.user} {self.sign}"
+            self.sign = f"{color_emoji} [{self.user}] {self.name}"
+        else:
+            self.sign = f"{color_emoji} {self.name}"
 
         # если запись изменилась, то вернёт новую
         if self.sign != last_sign:

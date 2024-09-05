@@ -78,6 +78,7 @@ async def get_topic_bot_message(message: Message):
 
 # далее команды из топика управления
 
+
 # хендлер сообщения /broadcast из чата бродкаста
 @dp.message(MyTopicFilter(broadcast=True), Command("broadcast"))
 async def get_broadcast_message(message: Message):
@@ -89,7 +90,7 @@ async def get_broadcast_message(message: Message):
 @dp.message(MyTopicFilter(broadcast=True), Command("statist"))
 async def get_statist_message(message: Message):
     data = await Statist.count()
-    await message.answer(f"DB_count: {data}")
+    await message.answer(f"count: {data}")
 
 
 # хендлер сообщения /suffix из чата бродкаста
