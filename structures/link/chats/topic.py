@@ -66,7 +66,7 @@ class GroupTopic:
         self.state = "opened"
         self.meta.set_start()
         await self.update_sign()
-        # await bot_topic.reopen(topic_id=self.id)
+        await bot_topic.reopen(topic_id=self.id)
         await self._backup()
 
     # бан топика
