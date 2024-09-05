@@ -59,13 +59,11 @@ class BotTopic:
             pass
 
     # открытие закрытого топика
-    async def reopen(self, topic_id: int, retry_flag: bool = True):
+    async def reopen(self, topic_id: int):
         try:
             await bot.reopen_forum_topic(GROUP_ID, topic_id)
         except Exception:
-            if retry_flag:  # ждёт 3 секунды, рекурсивно вызывает себя один раз
-                asyncio.sleep(3)
-                await self.reopen(topic_id, retry_flag=False)
+            pass
 
     # удаление топика
     async def delete(self, topic_id: int):
