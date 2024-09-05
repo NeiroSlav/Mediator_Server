@@ -3,7 +3,7 @@ from controller import MessageDTO, bot_topic
 
 
 # обрабатывает сбор информации о топике
-async def handle_topic_status(message_dto: MessageDTO):
+async def handle_status_command(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
     topic_id = message_dto.chat_id

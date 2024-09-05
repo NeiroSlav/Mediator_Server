@@ -31,7 +31,7 @@ class GroupTopic:
         self.meta = TopicMeta(self.name)
         self.state = "opened"
         self.id = await bot_topic.create(
-            name=self.meta.new_sign(self.name, self.state),
+            name=self.meta.new_sign(self.state),
             image_color=SOCIAL_COLORS[social],
         )
         self.meta.set_start()
@@ -44,7 +44,7 @@ class GroupTopic:
 
     # смена юзера и цвета перед именем топика
     async def update_sign(self):
-        new_sign = self.meta.new_sign(self.name, self.state)
+        new_sign = self.meta.new_sign(self.state)
         if new_sign:
             await bot_topic.set_name(topic_id=self.id, name=new_sign)
 
@@ -53,6 +53,7 @@ class GroupTopic:
         self.state = "closed"
         self.meta.set_finish()
         await self.meta.backup_stats()
+        self.meta.reset()
         try:
             await self.update_sign()
             await bot_topic.close(topic_id=self.id)
@@ -71,7 +72,7 @@ class GroupTopic:
     # бан топика
     async def ban(self):
         self.state = "banned"
-        self.meta.set_finish()
+        self.meta.reset()
         await self.update_sign()
         await self._backup()
 

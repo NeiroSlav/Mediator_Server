@@ -10,13 +10,15 @@ from pprint import pprint
 # информации о топике
 class TopicMeta:
 
-    def __init__(self, name):
+    def __init__(self, name: str):
+        self.name = name
         self.sign = ""
         self.user = None
         self.hold = False
         self.start_time = None
         self.answer_time = None
         self.finish_time = None
+        self.backuped = False
 
     def reset(self):
         self.user = None
@@ -24,8 +26,10 @@ class TopicMeta:
         self.start_time = None
         self.answer_time = None
         self.finish_time = None
+        self.backuped = False
 
     def set_start(self):
+        print("\nStarted")
         self.start_time = datetime.now()
 
     def set_answer(self):
@@ -33,9 +37,15 @@ class TopicMeta:
 
     def set_finish(self):
         self.finish_time = datetime.now()
+        if not self.answer_time:
+            self.answer_time = self.finish_time
+        if not self.user:
+            self.user = "nobody"
 
     # преобразует данные, пихает в базу статистики
     async def backup_stats(self):
+        if self.backuped:
+            return
         try:
             stats = {
                 "date": self.start_time.date(),
@@ -45,16 +55,16 @@ class TopicMeta:
                 "user": self.user,
             }
             await Statist.add(**stats)
-        except Exception as e:
-            print("backuping_error:", e)
-        self.reset()
+        except Exception:
+            pass
+        self.backuped = True
 
     # создаёт новое название (саму подпись) топика
-    def new_sign(self, name: str, state: str) -> str | None:
+    def new_sign(self, state: str) -> str | None:
         last_sign = self.sign
 
         color = get_color(STATE_COLORS[state])
-        self.sign = f"{color} {name}"
+        self.sign = f"{color} {self.name}"
         if self.user:
             self.sign = f"{self.user} {self.sign}"
 
@@ -82,14 +92,3 @@ def delta_to_time(timedelta: timedelta) -> time:
 
     # создание объекта time
     return time(int(hours), int(minutes), int(seconds))
-
-
-if __name__ == "__main__":
-    tm = TopicMeta("test")
-    tm.user = "tester"
-    tm.set_start()
-    sleep(2)
-    tm.set_answer()
-    sleep(3)
-    tm.set_finish()
-    tm.backup_stats()

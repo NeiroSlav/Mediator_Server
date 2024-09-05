@@ -1,10 +1,10 @@
 import asyncio
-from structures import GroupTopic
+from structures import ChatLink
 from const import AUTO_CLOSE_TIME
 
 
 class Sсheduler:
-    closing_topic_timers = {}  # cловарь для хранения таймеров по идентификатору топика
+    closing_dialog_timers = {}  # cловарь для хранения таймеров по идентификатору топика
 
     # планируем выполнение асинхронной задачи через время
     @staticmethod
@@ -18,15 +18,15 @@ class Sсheduler:
 
     # планируем закрытие топика через время
     @classmethod
-    async def sсhedule_topic_close(cls, topic: GroupTopic, delay=AUTO_CLOSE_TIME):
-        cls.cancel_topic_close(topic)
-        cls.closing_topic_timers[topic.id] = cls._set_event(topic.close, delay)
+    async def sсhedule_dialog_close(cls, chat: ChatLink, delay=AUTO_CLOSE_TIME):
+        cls.cancel_dialog_close(chat)
+        cls.closing_dialog_timers[chat] = cls._set_event(chat.say_goodbye, delay)
 
     # отмена таймера для этого топика, если есть
     @classmethod
-    def cancel_topic_close(cls, topic: GroupTopic):
-        if topic.id in cls.closing_topic_timers:
+    def cancel_dialog_close(cls, chat: ChatLink):
+        if chat.topic.id in cls.closing_dialog_timers:
             try:
-                cls.closing_topic_timers[topic.id].cancel()
+                cls.closing_dialog_timers[chat.topic.id].cancel()
             except RuntimeWarning:
                 pass

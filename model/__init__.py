@@ -1,9 +1,11 @@
-from model.foreign_message import handle_foreign_message
-from model.topic_close import handle_topic_close
-from model.topic_message import handle_topic_message
-from model.broadcast_message import handle_broadcast_message
-from model.topic_ban import handle_topic_ban
-from model.topic_unban import handle_topic_unban
-from model.suffix_message import handle_suffix_message
-from model.topic_hold import handle_topic_hold
-from model.topic_status import handle_topic_status
+from model.messages.foreign_message import handle_foreign_message
+from model.messages.topic_message import handle_topic_message
+
+from model.commands.broadcast import handle_broadcast_command
+from model.commands.suffix import handle_suffix_command
+
+from model.commands.topic_close import handle_close_command
+from model.commands.topic_hold import handle_hold_command
+from model.commands.topic_ban import handle_ban_command
+from model.commands.topic_unban import handle_unban_command
+from model.commands.topic_status import handle_status_command

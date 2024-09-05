@@ -32,4 +32,4 @@ async def handle_topic_message(message_dto: MessageDTO):
 
     # если установлено время автозакрытия топика, и топик не удержан, отложит этот процесс
     if AUTO_CLOSE_TIME and not chat_link.topic.meta.hold:
-        await Sсheduler.sсhedule_topic_close(chat_link.topic)
+        await Sсheduler.sсhedule_dialog_close(chat_link)

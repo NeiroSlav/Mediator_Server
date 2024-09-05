@@ -4,7 +4,7 @@ from const import UNBANNING_LOG
 
 
 # обрабатывает разбан абонента
-async def handle_topic_unban(message_dto: MessageDTO):
+async def handle_unban_command(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
     topic_id = message_dto.chat_id

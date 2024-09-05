@@ -5,7 +5,7 @@ from model.sсheduler import Sсheduler
 
 
 # обрабатывает бан абонента
-async def handle_topic_ban(message_dto: MessageDTO):
+async def handle_ban_command(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
     topic_id = message_dto.chat_id
@@ -31,4 +31,4 @@ async def handle_topic_ban(message_dto: MessageDTO):
     )
 
     # отменяет закрытие топика (если оно было)
-    Sсheduler.cancel_topic_close(chat_link.topic)
+    Sсheduler.cancel_dialog_close(chat_link)

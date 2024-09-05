@@ -5,7 +5,7 @@ from model.sсheduler import Sсheduler
 
 
 # обрабатывает широковещательное сообщение
-async def handle_broadcast_message(message_dto: MessageDTO):
+async def handle_broadcast_command(message_dto: MessageDTO):
 
     # убирает префикс /broadcast
     message_dto.text = message_dto.text.replace("/broadcast", "").strip()
@@ -31,7 +31,7 @@ async def handle_broadcast_message(message_dto: MessageDTO):
         await chat_link.topic.answer("broad")  # меняет состояние топика
 
         # планирует закрытие топика
-        await Sсheduler.sсhedule_topic_close(chat_link.topic)
+        await Sсheduler.sсhedule_dialog_close(chat_link)
 
     await bot_topic.log(  # логгирует информацию о команде бродкаста
         BROADCAST_LOG.format(name=message_dto.sender_name, text=message_dto.text)

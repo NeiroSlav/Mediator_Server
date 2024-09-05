@@ -8,7 +8,7 @@ suffix = {"enabled": False, "text": "тестовое сообщение ивр"
 
 
 # обрабатывает команду /suffix
-async def handle_suffix_message(message_dto: MessageDTO):
+async def handle_suffix_command(message_dto: MessageDTO):
 
     # убирает префикс /suffix или /suffix@botname
     argument = message_dto.text.split(" ")

@@ -5,7 +5,7 @@ from model.sсheduler import Sсheduler
 
 
 # обрабатывает закрытие топика
-async def handle_topic_close(message_dto: MessageDTO):
+async def handle_close_command(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
     topic_id = message_dto.chat_id
@@ -28,4 +28,4 @@ async def handle_topic_close(message_dto: MessageDTO):
     )
 
     # отменяет закрытие топика (если оно было)
-    Sсheduler.cancel_topic_close(chat_link.topic)
+    Sсheduler.cancel_dialog_close(chat_link)

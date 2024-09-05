@@ -1,7 +1,7 @@
 from structures import ChatLinksHandler, ChatLink
 from controller import MessageDTO, bot_topic
 from const import GREETING_TEXT, ABON_GOT_TEXT, CREATING_LOG, AUTO_CLOSE_TIME
-from model.suffix_message import suffix
+from model.commands.suffix import suffix
 from model.sсheduler import Sсheduler
 
 
@@ -48,7 +48,7 @@ async def handle_foreign_message(message_dto: MessageDTO):
 
     # если установлено время автозакрытия топика, и топик не удержан, отложит этот процесс
     if AUTO_CLOSE_TIME and not chat_link.topic.meta.hold:
-        await Sсheduler.sсhedule_topic_close(chat_link.topic)
+        await Sсheduler.sсhedule_dialog_close(chat_link)
 
 
 # приветствие абонента

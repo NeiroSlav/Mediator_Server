@@ -16,7 +16,7 @@ from model import *
 async def get_topic_close(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
     try:
-        await handle_topic_close(message_dto)
+        await handle_close_command(message_dto)
     except PermissionError:
         await message.delete()
 
@@ -26,7 +26,7 @@ async def get_topic_close(message: Message):
 async def get_topic_hold(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
     try:
-        await handle_topic_hold(message_dto)
+        await handle_hold_command(message_dto)
     except PermissionError:
         await message.delete()
 
@@ -35,7 +35,7 @@ async def get_topic_hold(message: Message):
 @dp.message(MyTopicFilter(), Command("status"))
 async def get_topic_status(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    await handle_topic_status(message_dto)
+    await handle_status_command(message_dto)
 
 
 # хендлер команды /ban из топика
@@ -43,7 +43,7 @@ async def get_topic_status(message: Message):
 async def get_topic_ban(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
     try:
-        await handle_topic_ban(message_dto)
+        await handle_ban_command(message_dto)
     except PermissionError:
         await message.delete()
 
@@ -53,7 +53,7 @@ async def get_topic_ban(message: Message):
 async def get_topic_unban(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
     try:
-        await handle_topic_unban(message_dto)
+        await handle_unban_command(message_dto)
     except PermissionError:
         await message.delete()
 
@@ -76,11 +76,13 @@ async def get_topic_bot_message(message: Message):
         await bot_topic.delete_message(message.message_id)
 
 
+# далее команды из топика управления
+
 # хендлер сообщения /broadcast из чата бродкаста
 @dp.message(MyTopicFilter(broadcast=True), Command("broadcast"))
 async def get_broadcast_message(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    await handle_broadcast_message(message_dto)
+    await handle_broadcast_command(message_dto)
 
 
 # хендлер сообщения /statist из чата бродкаста
@@ -94,4 +96,4 @@ async def get_statist_message(message: Message):
 @dp.message(MyTopicFilter(broadcast=True), Command("suffix"))
 async def get_suffix_message(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    await handle_suffix_message(message_dto)
+    await handle_suffix_command(message_dto)
