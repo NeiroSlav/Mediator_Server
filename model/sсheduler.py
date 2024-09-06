@@ -20,13 +20,14 @@ class Sсheduler:
     @classmethod
     async def sсhedule_dialog_close(cls, chat: ChatLink, delay=AUTO_CLOSE_TIME):
         cls.cancel_dialog_close(chat)
-        cls.closing_dialog_timers[chat] = cls._set_event(chat.say_goodbye, delay)
+        cls.closing_dialog_timers[chat.topic.id] = cls._set_event(
+            event=chat.say_goodbye, delay=delay
+        )
 
     # отмена таймера для этого топика, если есть
     @classmethod
     def cancel_dialog_close(cls, chat: ChatLink):
-        if chat.topic.id in cls.closing_dialog_timers:
-            try:
-                cls.closing_dialog_timers[chat.topic.id].cancel()
-            except RuntimeWarning:
-                pass
+        try:
+            cls.closing_dialog_timers[chat.topic.id].cancel()
+        except (RuntimeWarning, KeyError):
+            pass
