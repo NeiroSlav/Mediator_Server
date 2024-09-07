@@ -72,7 +72,7 @@ async def get_topic_message(message: Message):
 @dp.message(MyTopicFilter(from_bot=True))
 async def get_topic_bot_message(message: Message):
     if message.forum_topic_edited:
-        await asyncio.sleep(5)
+        await asyncio.sleep(10)
         await bot_topic.delete_message(message.message_id)
 
 
