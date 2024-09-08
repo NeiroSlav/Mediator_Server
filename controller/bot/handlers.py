@@ -11,61 +11,54 @@ from controller.message_dto import MessageDTO
 from model import *
 
 
+# пытается выполнить команду, ловит и гасит ошибку
+async def try_execute(command: callable, *args):
+    try:
+        await command(*args)
+    except PermissionError:
+        pass
+
+
 # хендлер команды /close из топика
 @dp.message(MyTopicFilter(), Command("close"))
 async def get_topic_close(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    try:
-        await handle_close_command(message_dto)
-    except PermissionError:
-        await message.delete()
+    await try_execute(handle_close_command, message_dto)
 
 
 # хендлер команды /hold из топика
 @dp.message(MyTopicFilter(), Command("hold"))
 async def get_topic_hold(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    try:
-        await handle_hold_command(message_dto)
-    except PermissionError:
-        await message.delete()
+    await try_execute(handle_hold_command, message_dto)
 
 
 # хендлен команды /status из топика
 @dp.message(MyTopicFilter(), Command("status"))
 async def get_topic_status(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    await handle_status_command(message_dto)
+    await try_execute(handle_status_command, message_dto)
 
 
 # хендлер команды /ban из топика
 @dp.message(MyTopicFilter(), Command("ban"))
 async def get_topic_ban(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    try:
-        await handle_ban_command(message_dto)
-    except PermissionError:
-        await message.delete()
+    await try_execute(handle_ban_command, message_dto)
 
 
 # хендлер команды /unban из топика
 @dp.message(MyTopicFilter(), Command("unban"))
 async def get_topic_unban(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    try:
-        await handle_unban_command(message_dto)
-    except PermissionError:
-        await message.delete()
+    await try_execute(handle_unban_command, message_dto)
 
 
 # хендлер сообщения сотрудника из топика
 @dp.message(MyTopicFilter())
 async def get_topic_message(message: Message):
     message_dto = await MessageDTO.parse_tg(message)
-    try:
-        await handle_topic_message(message_dto)
-    except PermissionError:  # в случае, если топик забанен
-        await message.delete()
+    await try_execute(handle_topic_message, message_dto)
 
 
 # хендлер сообщения бота из топика

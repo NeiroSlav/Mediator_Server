@@ -1,6 +1,6 @@
-from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
-from const import GREETING_TEXT, SUFFIX_COMMAND_TEXT, BROADCAST_ID
+from const import SUFFIX_COMMAND_TEXT, BROADCAST_ID
+from model.commands.utils import strip_arguments
 
 
 # текст после приветствия абонента
@@ -10,12 +10,7 @@ suffix = {"enabled": False, "text": "тестовое сообщение ивр"
 # обрабатывает команду /suffix
 async def handle_suffix_command(message_dto: MessageDTO):
 
-    # убирает префикс /suffix или /suffix@botname
-    argument = message_dto.text.split(" ")
-    if len(argument) > 1:
-        argument = " ".join(argument[1:]).strip()
-    else:
-        argument = ""
+    argument = strip_arguments(message_dto.text)
 
     if argument == "enable":
         suffix["enabled"] = True

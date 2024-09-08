@@ -1,18 +1,13 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
+from model.commands.utils import try_get_chat_link
 
 
 # обрабатывает сбор информации о топике
 async def handle_status_command(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
-    topic_id = message_dto.chat_id
-    chat_link = ChatLinksHandler.get_by_topic_id(topic_id)
-
-    # если её нет - удаляем сам топик
-    if not chat_link:
-        await bot_topic.delete(topic_id)
-        return
+    chat_link = await try_get_chat_link(message_dto.chat_id)
 
     # преобразуем инфу линка в слвоварь, красиво собираем
     status_info = ""

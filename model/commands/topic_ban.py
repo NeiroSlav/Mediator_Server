@@ -2,22 +2,14 @@ from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import BANNING_LOG, ABON_BAN_TEXT
 from model.sсheduler import Sсheduler
+from model.commands.utils import try_get_chat_link
 
 
 # обрабатывает бан абонента
 async def handle_ban_command(message_dto: MessageDTO):
 
     # пытаемся достать сессию (линк) чатов
-    topic_id = message_dto.chat_id
-    chat_link = ChatLinksHandler.get_by_topic_id(topic_id)
-
-    # если её нет - удаляем сам топик
-    if not chat_link:
-        await bot_topic.delete(topic_id)
-        return
-
-    if chat_link.topic.state == "banned":
-        raise PermissionError
+    chat_link = await try_get_chat_link(message_dto.chat_id)
 
     # если сессия есть - ставим флаг "забанен", пишем в лог
     await chat_link.topic.ban()
