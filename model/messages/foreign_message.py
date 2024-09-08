@@ -1,8 +1,7 @@
 from structures import ChatLinksHandler, ChatLink
 from controller import MessageDTO, bot_topic
-from const import GREETING_TEXT, ABON_GOT_TEXT, CREATING_LOG, AUTO_CLOSE_TIME
-from model.commands.suffix import suffix
-from model.sсheduler import Sсheduler
+from const import CREATING_LOG
+from model.messages.utils import greet_abon, try_schedule_close
 
 
 # обрабатывает сообщение извне, пришедшее по http
@@ -46,24 +45,4 @@ async def handle_foreign_message(message_dto: MessageDTO):
     if greeting_flag:
         await greet_abon(chat_link)
 
-    # если установлено время автозакрытия топика, и топик не удержан, отложит этот процесс
-    if AUTO_CLOSE_TIME and not chat_link.topic.meta.hold:
-        await Sсheduler.sсhedule_dialog_close(chat_link)
-
-
-# приветствие абонента
-async def greet_abon(chat_link: ChatLink):
-    text = GREETING_TEXT
-
-    # если включен режим суфикса,
-    if suffix["enabled"]:  # добавляет его текст к приветствию
-        text += f'\n\n{suffix["text"]}'
-
-    # формирует приветственное сообщение абоненту
-    message_dto = MessageDTO.new(text)
-    notification = MessageDTO.new(ABON_GOT_TEXT.format(text=text))
-
-    await chat_link.abon_chat.send(message_dto)  # отправка абону приветственного текста
-    await chat_link.topic.send(
-        notification
-    )  # отправка в топик информации о приветствии
+    await try_schedule_close(chat_link)

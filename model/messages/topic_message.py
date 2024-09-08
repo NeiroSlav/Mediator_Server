@@ -1,7 +1,6 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
-from const import AUTO_CLOSE_TIME
-from model.sсheduler import Sсheduler
+from model.messages.utils import try_schedule_close
 
 
 # обрабатывает сообщение из топика
@@ -31,6 +30,4 @@ async def handle_topic_message(message_dto: MessageDTO):
     message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)
 
-    # если установлено время автозакрытия топика, и топик не удержан, отложит этот процесс
-    if AUTO_CLOSE_TIME and not chat_link.topic.meta.hold:
-        await Sсheduler.sсhedule_dialog_close(chat_link)
+    await try_schedule_close(chat_link)
