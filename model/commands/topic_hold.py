@@ -18,4 +18,5 @@ async def handle_hold_command(message_dto: MessageDTO):
 
     # отменяет закрытие топика (если оно было)
     Scheduler.cancel_dialog_close(chat_link)
+    Scheduler.cancel_dialog_finish(chat_link)
     chat_link.topic.meta.hold = True

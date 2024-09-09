@@ -41,3 +41,7 @@ class Scheduler:
     @classmethod
     def cancel_dialog_close(cls, chat_link: ChatLink):
         cls._abstract_cancel(cls.closing_timers, chat_link.topic.id)
+
+    @classmethod
+    def cancel_dialog_finish(cls, chat_link: ChatLink):
+        cls._abstract_cancel(cls.finishing_timers, chat_link.topic.id)
