@@ -1,4 +1,3 @@
-from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import HOLDING_LOG
 from model.scheduler import Scheduler

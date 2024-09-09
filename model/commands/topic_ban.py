@@ -1,4 +1,3 @@
-from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import BANNING_LOG, ABON_BAN_TEXT
 from model.scheduler import Scheduler

@@ -1,5 +1,4 @@
-from structures import ChatLinksHandler
-from controller import MessageDTO, bot_topic
+from controller import MessageDTO
 from model.commands.utils import try_get_chat_link
 
 

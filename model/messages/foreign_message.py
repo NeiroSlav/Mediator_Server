@@ -22,12 +22,12 @@ async def handle_foreign_message(message_dto: MessageDTO):
             name=message_dto.sender_name,
         )
         await ChatLinksHandler.add(chat_link)
-        await bot_topic.log(
-            CREATING_LOG.format(
-                topic=chat_link.topic.name,
-                social=message_dto.social,
-            )
-        )
+        # await bot_topic.log(
+        #     CREATING_LOG.format(
+        #         topic=chat_link.topic.name,
+        #         social=message_dto.social,
+        #     )
+        # )
         greeting_flag = True
 
     # если абонент забанен

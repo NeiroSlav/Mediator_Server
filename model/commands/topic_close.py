@@ -1,5 +1,5 @@
 from controller import MessageDTO, bot_topic
-from const import CLOSING_LOG, AUTO_CLOSE_TIME
+from const import CLOSING_LOG
 from model.scheduler import Scheduler
 from model.commands.utils import try_get_chat_link
 
@@ -19,7 +19,7 @@ async def handle_close_command(message_dto: MessageDTO):
     # перепланирует бекап топика
     Scheduler.sch_dialog_finish(chat_link)
 
-    # логирование информации о закрытии топика
-    await bot_topic.log(
-        CLOSING_LOG.format(name=message_dto.sender_name, topic=chat_link.topic.name)
-    )
+    # # логирование информации о закрытии топика
+    # await bot_topic.log(
+    #     CLOSING_LOG.format(name=message_dto.sender_name, topic=chat_link.topic.name)
+    # )

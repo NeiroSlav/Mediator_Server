@@ -1,4 +1,3 @@
-from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import UNBANNING_LOG
 from model.commands.utils import try_get_chat_link
