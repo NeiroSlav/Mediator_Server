@@ -1,6 +1,6 @@
 from pprint import pprint
 from controller import bot_topic, MessageDTO
-from const import SOCIAL_COLORS, STATE_COLORS
+from const import SOCIAL_COLORS, OPENED, ANSWERED, CLOSED, BANNED
 from controller import Backuper
 from structures.link.chats.topic_utils import TopicMeta
 
@@ -29,7 +29,7 @@ class GroupTopic:
         self = cls()
         self.name = str(name)
         self.meta = TopicMeta(self.name)
-        self.state = "opened"
+        self.state = OPENED
         self.id = await bot_topic.create(
             name=self.meta.new_sign(self.state),
             image_color=SOCIAL_COLORS[social],
@@ -54,7 +54,7 @@ class GroupTopic:
 
     # закрытие топика
     async def close(self):
-        self.state = "closed"
+        self.state = CLOSED
         self.meta.set_close()
         try:
             await self.update_sign()
@@ -65,7 +65,7 @@ class GroupTopic:
 
     # открытие топика
     async def reopen(self):
-        self.state = "opened"
+        self.state = OPENED
         self.meta.set_start()
         await self.update_sign()
         await bot_topic.reopen(topic_id=self.id)
@@ -73,14 +73,14 @@ class GroupTopic:
 
     # бан топика
     async def ban(self):
-        self.state = "banned"
+        self.state = BANNED
         self.meta.reset()
         await self.update_sign()
         await self._backup_state()
 
     # бан топика
     async def answer(self, user: str):
-        self.state = "answered"
+        self.state = ANSWERED
         self.meta.set_answer()
         self.meta.user = user
         await self.update_sign()

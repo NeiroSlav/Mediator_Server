@@ -1,5 +1,6 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
+from const import BANNED
 from model.messages.utils import try_schedule_close
 
 
@@ -19,7 +20,7 @@ async def handle_topic_message(message_dto: MessageDTO):
         await bot_topic.delete(topic_id)
         return
 
-    if chat_link.topic.state == "banned":
+    if chat_link.topic.state == BANNED:
         raise PermissionError
 
     # если топик ещё не "отвеченный" ставим флаг, меняем цвет

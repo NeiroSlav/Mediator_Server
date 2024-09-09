@@ -1,4 +1,4 @@
-from const import STATE_COLORS
+from const import STATE_COLORS, ANSWERED
 import emoji
 from datetime import datetime, time, timedelta
 from controller import Statist
@@ -65,7 +65,7 @@ class TopicMeta:
         last_sign = self.sign
 
         color_emoji = get_color(STATE_COLORS[state])
-        if state == "answered":
+        if state == ANSWERED:
             self.sign = f"{color_emoji} [{self.user}] {self.name}"
         else:
             self.sign = f"{color_emoji} {self.name}"

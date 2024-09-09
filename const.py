@@ -53,10 +53,16 @@ SOCIAL_COLORS = {
     "vk": ICON_COLORS["blue"],
 }
 
+# литералы состояний топиков
+OPENED = "opened"
+ANSWERED = "answered"
+CLOSED = "closed"
+BANNED = "banned"
+
 # цвета в названиях топиков
 STATE_COLORS = {
-    "closed": "red",
-    "answered": "yellow",
-    "opened": "green",
-    "banned": "black",
+    CLOSED: "red",
+    ANSWERED: "yellow",
+    OPENED: "green",
+    BANNED: "black",
 }

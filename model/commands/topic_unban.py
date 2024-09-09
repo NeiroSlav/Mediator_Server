@@ -1,5 +1,5 @@
 from controller import MessageDTO, bot_topic
-from const import UNBANNING_LOG
+from const import UNBANNING_LOG, BANNED
 from model.commands.utils import try_get_chat_link
 
 
@@ -10,7 +10,7 @@ async def handle_unban_command(message_dto: MessageDTO):
     chat_link = await try_get_chat_link(message_dto.chat_id)
 
     # если топик и не забанин
-    if not chat_link.topic.state == "banned":
+    if not chat_link.topic.state == BANNED:
         return
 
     # если сессия есть - закрываем топик, пишем в лог

@@ -1,6 +1,6 @@
 from structures import ChatLinksHandler, ChatLink
 from controller import MessageDTO, bot_topic
-from const import CREATING_LOG
+from const import CREATING_LOG, CLOSED, BANNED
 from model.messages.utils import greet_abon, try_schedule_close
 
 
@@ -31,11 +31,11 @@ async def handle_foreign_message(message_dto: MessageDTO):
         greeting_flag = True
 
     # если абонент забанен
-    elif chat_link.topic.state == "banned":
+    elif chat_link.topic.state == BANNED:
         return
 
     # если абонент когда-то обращался, но топик уже закрыт
-    elif chat_link.topic.state == "closed":
+    elif chat_link.topic.state == CLOSED:
 
         # и если мета топика неактивна (т.е. абонент обращался давно)
         if not chat_link.topic.meta.active:

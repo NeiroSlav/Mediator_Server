@@ -1,6 +1,6 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
-from const import ABON_GOT_TEXT, BROADCAST_LOG
+from const import ABON_GOT_TEXT, BROADCAST_LOG, OPENED
 from model.scheduler import Scheduler
 from model.commands.utils import strip_arguments
 import asyncio
@@ -22,7 +22,7 @@ async def handle_broadcast_command(message_dto: MessageDTO):
     for chat_link in all_chat_links:
 
         # если топик отвеченный, или закрытый, или забаненный - его не трогает
-        if chat_link.topic.state != "opened":
+        if chat_link.topic.state != OPENED:
             continue
 
         await asyncio.sleep(1)

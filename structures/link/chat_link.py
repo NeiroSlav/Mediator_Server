@@ -2,7 +2,7 @@ from pprint import pprint
 
 from structures.link.chats.abonchat import AbonChat
 from structures.link.chats.topic import GroupTopic
-from const import GOODBYE_TEXT
+from const import GOODBYE_TEXT, ANSWERED
 from controller import Backuper, MessageDTO
 
 
@@ -36,7 +36,7 @@ class ChatLink:
 
     # прощание с абонентом, если топик "отвеченный", закрытие
     async def say_goodbye(self):
-        # if self.topic.state == "answered":
+        # if self.topic.state == ANSWERED:
         #     await self.abon_chat.send(MessageDTO.new(GOODBYE_TEXT))
         await self.topic.close()
 
