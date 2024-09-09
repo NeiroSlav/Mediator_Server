@@ -11,7 +11,7 @@ class TopicMeta:
     def __init__(self, name: str):
         self.name = name
         self.sign = ""
-        self.user = None
+        self.user = "nobody"
         self.hold = False
         self._start_time = None
         self._answer_time = None
@@ -19,7 +19,7 @@ class TopicMeta:
         self.active = False
 
     def reset(self):
-        self.user = None
+        self.user = "nobody"
         self.hold = False
         self._start_time = None
         self._answer_time = None
@@ -42,8 +42,6 @@ class TopicMeta:
         self._finish_time = datetime.now()
         if not self._answer_time:
             self._answer_time = self._finish_time
-        if not self.user:
-            self.user = "nobody"
 
     # преобразует данные, пихает в базу статистики
     async def backup_and_reset(self):
@@ -67,7 +65,7 @@ class TopicMeta:
         last_sign = self.sign
 
         color_emoji = get_color(STATE_COLORS[state])
-        if self.user:
+        if state == "answered":
             self.sign = f"{color_emoji} [{self.user}] {self.name}"
         else:
             self.sign = f"{color_emoji} {self.name}"
