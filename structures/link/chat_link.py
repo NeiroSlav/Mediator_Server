@@ -40,6 +40,9 @@ class ChatLink:
         #     await self.abon_chat.send(MessageDTO.new(GOODBYE_TEXT))
         await self.topic.close()
 
+    async def finish(self):
+        await self.topic.finish()
+
     def __str__(self) -> str:
         return f"  чат: {self.abon_chat.id}\nтопик: {self.topic.id}"
 

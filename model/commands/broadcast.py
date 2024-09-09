@@ -25,7 +25,7 @@ async def handle_broadcast_command(message_dto: MessageDTO):
         if chat_link.topic.state != "opened":
             continue
 
-        asyncio.sleep(1)
+        await asyncio.sleep(1)
         await chat_link.abon_chat.send(message_dto)  # отправляет сообщение абону
         await chat_link.topic.send(notification)  # отправляет инфу в топик
         await chat_link.topic.answer("broad")  # меняет состояние топика

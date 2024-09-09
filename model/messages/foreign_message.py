@@ -36,8 +36,11 @@ async def handle_foreign_message(message_dto: MessageDTO):
 
     # если абонент когда-то обращался, но топик уже закрыт
     elif chat_link.topic.state == "closed":
+
+        # и если мета топика неактивна (т.е. абонент обращался давно)
+        if not chat_link.topic.meta.active:
+            greeting_flag = True
         await chat_link.topic.reopen()
-        greeting_flag = True
 
     # пересылка сообщения абонента в топик
     message_dto.chat_id = chat_link.topic.id

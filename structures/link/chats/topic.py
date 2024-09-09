@@ -48,18 +48,20 @@ class GroupTopic:
         if new_sign:
             await bot_topic.set_name(topic_id=self.id, name=new_sign)
 
+    # окончательное финиширование
+    async def finish(self):
+        await self.meta.backup_and_reset()
+
     # закрытие топика
     async def close(self):
         self.state = "closed"
-        self.meta.set_finish()
-        await self.meta.backup_stats()
-        self.meta.reset()
+        self.meta.set_close()
         try:
             await self.update_sign()
             # await bot_topic.close(topic_id=self.id)
         except:
             pass
-        await self._backup()
+        await self._backup_state()
 
     # открытие топика
     async def reopen(self):
@@ -67,14 +69,14 @@ class GroupTopic:
         self.meta.set_start()
         await self.update_sign()
         await bot_topic.reopen(topic_id=self.id)
-        await self._backup()
+        await self._backup_state()
 
     # бан топика
     async def ban(self):
         self.state = "banned"
         self.meta.reset()
         await self.update_sign()
-        await self._backup()
+        await self._backup_state()
 
     # бан топика
     async def answer(self, user: str):
@@ -82,8 +84,8 @@ class GroupTopic:
         self.meta.set_answer()
         self.meta.user = user
         await self.update_sign()
-        await self._backup()
+        await self._backup_state()
 
     # бекап состояния в базу
-    async def _backup(self):
+    async def _backup_state(self):
         await Backuper.update_state(topic_id=self.id, new_state=self.state)

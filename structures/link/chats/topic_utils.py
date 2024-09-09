@@ -1,9 +1,7 @@
 from const import STATE_COLORS
 import emoji
 from datetime import datetime, time, timedelta
-from time import sleep
 from controller import Statist
-from pprint import pprint
 
 
 # класс для всей сторонней
@@ -15,48 +13,54 @@ class TopicMeta:
         self.sign = ""
         self.user = None
         self.hold = False
-        self.start_time = None
-        self.answer_time = None
-        self.finish_time = None
-        self.backuped = False
+        self._start_time = None
+        self._answer_time = None
+        self._finish_time = None
+        self.active = False
 
     def reset(self):
         self.user = None
         self.hold = False
-        self.start_time = None
-        self.answer_time = None
-        self.finish_time = None
-        self.backuped = False
+        self._start_time = None
+        self._answer_time = None
+        self._finish_time = None
+        self.active = False
 
+    # установка стартового времени,
     def set_start(self):
-        self.start_time = datetime.now()
+        self.active = True
+        if not self._start_time:
+            self._start_time = datetime.now()
 
+    # времени ответа
     def set_answer(self):
-        self.answer_time = datetime.now()
+        if not self._answer_time:
+            self._answer_time = datetime.now()
 
-    def set_finish(self):
-        self.finish_time = datetime.now()
-        if not self.answer_time:
-            self.answer_time = self.finish_time
+    # времени закрытия топика
+    def set_close(self):
+        self._finish_time = datetime.now()
+        if not self._answer_time:
+            self._answer_time = self._finish_time
         if not self.user:
             self.user = "nobody"
 
     # преобразует данные, пихает в базу статистики
-    async def backup_stats(self):
-        if self.backuped:
+    async def backup_and_reset(self):
+        if not self.active:
             return
         try:
             stats = {
-                "date": self.start_time.date(),
-                "start_time": self.start_time.time().replace(microsecond=0),
-                "answer_rate": delta_to_time(self.answer_time - self.start_time),
-                "finish_rate": delta_to_time(self.finish_time - self.start_time),
+                "date": self._start_time.date(),
+                "start_time": self._start_time.time().replace(microsecond=0),
+                "answer_rate": delta_to_time(self._answer_time - self._start_time),
+                "finish_rate": delta_to_time(self._finish_time - self._start_time),
                 "user": self.user,
             }
             await Statist.add(**stats)
         except Exception:
             pass
-        self.backuped = True
+        self.reset()
 
     # создаёт новое название (саму подпись) топика
     def new_sign(self, state: str) -> str | None:
@@ -84,6 +88,7 @@ def get_color(color: str):
         return emoji.emojize(":clown_face:")
 
 
+# преобразует объект timedelta в time
 def delta_to_time(timedelta: timedelta) -> time:
     # получение часов, минут и секунд
     total_seconds = timedelta.total_seconds()
