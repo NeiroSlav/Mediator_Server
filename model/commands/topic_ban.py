@@ -1,7 +1,7 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import BANNING_LOG, ABON_BAN_TEXT
-from model.sсheduler import Sсheduler
+from model.scheduler import Scheduler
 from model.commands.utils import try_get_chat_link
 
 
@@ -23,4 +23,4 @@ async def handle_ban_command(message_dto: MessageDTO):
     )
 
     # отменяет закрытие топика (если оно было)
-    Sсheduler.cancel_dialog_close(chat_link)
+    Scheduler.cancel_dialog_close(chat_link)

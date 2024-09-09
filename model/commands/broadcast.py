@@ -1,7 +1,7 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic
 from const import ABON_GOT_TEXT, BROADCAST_LOG
-from model.sсheduler import Sсheduler
+from model.scheduler import Scheduler
 from model.commands.utils import strip_arguments
 import asyncio
 
@@ -31,7 +31,7 @@ async def handle_broadcast_command(message_dto: MessageDTO):
         await chat_link.topic.answer("broad")  # меняет состояние топика
 
         # планирует закрытие топика
-        await Sсheduler.sсhedule_dialog_close(chat_link)
+        Scheduler.sch_dialog_close(chat_link)
 
     await bot_topic.log(  # логгирует информацию о команде бродкаста
         BROADCAST_LOG.format(name=message_dto.sender_name, text=message_dto.text)

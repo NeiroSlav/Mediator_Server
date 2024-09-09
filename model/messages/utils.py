@@ -1,7 +1,7 @@
 from const import GREETING_TEXT, ABON_GOT_TEXT, AUTO_CLOSE_TIME
 from controller import MessageDTO
 from structures import ChatLink
-from model.sсheduler import Sсheduler
+from model.scheduler import Scheduler
 from model.commands.suffix import suffix
 
 
@@ -24,7 +24,8 @@ async def greet_abon(chat_link: ChatLink):
 
 
 # отложит процесс автозакрытия топика
-async def try_schedule_close(chat_link: ChatLink):
+def try_schedule_close(chat_link: ChatLink):
     # если установлено время автозакрытия топика, и топик не удержан
     if AUTO_CLOSE_TIME and not chat_link.topic.meta.hold:
-        await Sсheduler.sсhedule_dialog_close(chat_link)
+        Scheduler.sch_dialog_close(chat_link)
+        Scheduler.sch_dialog_finish(chat_link)

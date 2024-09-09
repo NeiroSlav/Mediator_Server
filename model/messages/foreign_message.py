@@ -48,4 +48,4 @@ async def handle_foreign_message(message_dto: MessageDTO):
     if greeting_flag:
         await greet_abon(chat_link)
 
-    await try_schedule_close(chat_link)
+    try_schedule_close(chat_link)

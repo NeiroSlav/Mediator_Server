@@ -30,4 +30,4 @@ async def handle_topic_message(message_dto: MessageDTO):
     message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)
 
-    await try_schedule_close(chat_link)
+    try_schedule_close(chat_link)
