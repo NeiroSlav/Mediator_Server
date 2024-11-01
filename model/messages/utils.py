@@ -1,8 +1,13 @@
-from const import GREETING_TEXT, ABON_GOT_TEXT, AUTO_CLOSE_TIME
+from const import (
+    GREETING_TEXT,
+    ABON_GOT_TEXT,
+    AUTO_CLOSE_TIME,
+    SUFFIX_STATE,
+    SUFFIX_ALIAS_NAME,
+)
 from controller import MessageDTO, aliaser
 from structures import ChatLink
 from model.scheduler import Scheduler
-from model.commands.suffix import suffix
 
 
 # приветствие абонента
@@ -10,8 +15,8 @@ async def greet_abon(chat_link: ChatLink):
     text = GREETING_TEXT
 
     # если включен режим суфикса,
-    if suffix["enabled"]:  # добавляет его текст к приветствию
-        text += f'\n\n{suffix["text"]}'
+    if SUFFIX_STATE["enabled"]:  # добавляет его текст к приветствию
+        text += f"\n\n{aliaser.get(SUFFIX_ALIAS_NAME)}"
 
     # формирует приветственное сообщение абоненту
     message_dto = MessageDTO.new(text)

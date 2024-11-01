@@ -59,6 +59,10 @@ SOCIAL_COLORS = {
     "vk": ICON_COLORS["blue"],
 }
 
+# глобальное состояние суффикса
+SUFFIX_STATE = {"enabled": False}
+SUFFIX_ALIAS_NAME = "suffix"
+
 # литералы состояний топиков
 OPENED = "opened"
 ANSWERED = "answered"
