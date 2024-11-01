@@ -36,6 +36,10 @@ ABON_BAN_TEXT = """
 207 - для корпоративных абонентов
 """
 
+COMMENT_SYMBOL = "/"
+ALIAS_SYMBOL = "$"
+ALIAS_SEARCH_ERROR = "Не удалось найти сокращение {alias}"
+
 
 # цвета иконок при создании топика
 ICON_COLORS = {
