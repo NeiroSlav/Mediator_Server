@@ -38,7 +38,9 @@ ABON_BAN_TEXT = """
 
 COMMENT_SYMBOL = "/"
 ALIAS_SYMBOL = "$"
-ALIAS_SEARCH_ERROR = "Не удалось найти сокращение {alias}"
+ALIAS_TEXT_ERROR = f'Вы не ввели шаблонный текст после "del"'
+ALIAS_SEARCH_ERROR = "Не удалось найти alias ${alias}"
+ALIAS_COMMAND_ERROR = "Неизвестная команда"
 
 
 # цвета иконок при создании топика

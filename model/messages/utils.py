@@ -1,5 +1,5 @@
 from const import GREETING_TEXT, ABON_GOT_TEXT, AUTO_CLOSE_TIME
-from controller import MessageDTO
+from controller import MessageDTO, aliaser
 from structures import ChatLink
 from model.scheduler import Scheduler
 from model.commands.suffix import suffix

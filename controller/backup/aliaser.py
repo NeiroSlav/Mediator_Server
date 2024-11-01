@@ -37,3 +37,9 @@ class Aliaser:
             del data[alias]
             with open(self.file_path, "w") as file:
                 json.dump(data, file, indent=4)
+
+    # удаляет значение и ключ
+    def get_all(self) -> list:
+        with open(self.file_path, "r") as file:
+            data = json.load(file)
+        return list(dict(data).keys())

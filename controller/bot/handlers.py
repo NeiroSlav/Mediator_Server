@@ -56,10 +56,10 @@ async def get_topic_unban(message: Message):
 # далее сообщения из обычных топиков
 
 
-# # хендлер элиаса сотрудника из топика
-# @dp.message(MyTopicFilter(alias=True))
-# async def get_topic_alias(message: Message):
-#     await try_execute(handle_topic_alias, message)
+# хендлер элиаса сотрудника из топика
+@dp.message(MyTopicFilter(alias=True))
+async def get_topic_alias(message: Message):
+    await try_execute(handle_topic_alias, message)
 
 
 # хендлер сообщения сотрудника из топика
@@ -77,6 +77,12 @@ async def get_topic_bot_message(message: Message):
 
 
 # далее команды из топика управления
+
+
+# хендлер элиаса сотрудника из топика
+@dp.message(MyTopicFilter(broadcast=True), Command("alias"))
+async def get_topic_alias(message: Message):
+    await try_execute(handle_controll_aliases, message)
 
 
 # хендлер сообщения /broadcast из чата бродкаста
