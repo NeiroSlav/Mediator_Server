@@ -8,7 +8,7 @@ from model.messages.utils import try_schedule_close
 async def handle_topic_message(message_dto: MessageDTO):
 
     # если сообщение является комментарием, ничего не делать
-    if message_dto.text.startswith("/"):
+    if message_dto.text and message_dto.text.startswith("/"):
         return
 
     # пытаемся достать сессию (линк) чатов

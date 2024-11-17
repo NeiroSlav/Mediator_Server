@@ -32,8 +32,11 @@ class MyTopicFilter(BaseFilter):
         elif message.message_thread_id == BROADCAST_ID and not self.broadcast:
             return False
 
-        # если сообщение начинается с символа элиаса, но флаг элиаса не установлен (и наоборот)
-        elif message.text and (message.text.startswith(ALIAS_SYMBOL) != self.alias):
+        # если сообщение начинается с символа элиаса
+        elif message.text and message.text.startswith(ALIAS_SYMBOL):
+            return self.alias
+
+        elif self.alias:
             return False
 
         return True
