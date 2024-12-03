@@ -12,6 +12,7 @@ async def handle_broadcast_command(message_dto: MessageDTO):
     argument = strip_arguments(message_dto.text)
     if not argument:  # если в сообщение не было текста
         return
+    message_dto.text = argument
 
     notification = MessageDTO.new(  # создаётся сообщение для топика,
         ABON_GOT_TEXT.format(text=argument)  # о том, что абонент получил сообщение
