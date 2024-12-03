@@ -1,3 +1,4 @@
+import re
 from structures import ChatLinksHandler, ChatLink
 from controller import bot_topic
 
@@ -18,9 +19,12 @@ async def try_get_chat_link(topic_id: int) -> ChatLink | None:
 
 # убирает префикс /command или /command@botname
 def strip_arguments(text: str) -> str:
-    argument = text.split(" ")
-    if len(argument) > 1:
-        argument = " ".join(argument[1:]).strip()
-    else:
-        argument = ""
-    return argument
+    pattern = r"/[A-z0-9_\-@]+"
+    founded = re.search(pattern, text)
+
+    if not founded:
+        return text
+
+    command = founded.group()
+    text = text.replace(command, "")
+    return text.strip()
