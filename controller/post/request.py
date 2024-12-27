@@ -1,3 +1,4 @@
+import copy
 import httpx
 import json
 from controller.message_dto import MessageDTO
@@ -8,7 +9,7 @@ from const import CLIENT_PORTS, POST_ERROR_LOG
 class ForeignApi:
 
     # отправка сообщения на сторонний сервис, учитывая социальную сеть
-    async def send_message_out(self, message_dto: MessageDTO):
+    async def send_message_to_client(self, message_dto: MessageDTO):
         port = CLIENT_PORTS[message_dto.social]
         try:
             await self._send_post_request(
@@ -25,6 +26,25 @@ class ForeignApi:
                 )
             )
             raise e
+
+
+    # отправка сообщения на сервис хелпера
+    async def send_message_to_helper(self, message_dto: MessageDTO, to_abon: bool, indefier: str | None = None):
+        new_message = copy.deepcopy(message_dto)
+        new_message.sender_name = "assistent" if to_abon else "user"
+        if indefier:
+            new_message.chat_id = indefier
+
+        print(new_message)
+
+        port = CLIENT_PORTS["helper"]
+        try:
+            await self._send_post_request(
+                f"http://127.0.0.1:{port}/", message_dto.model_dump_json()
+            )
+        except Exception as e:
+            pass
+
 
     # отправляет post-запросс по url с указаными данными
     @staticmethod

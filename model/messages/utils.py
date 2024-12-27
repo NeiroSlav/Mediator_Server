@@ -1,6 +1,5 @@
 from const import (
     GREETING_TEXT,
-    ABON_GOT_TEXT,
     AUTO_CLOSE_TIME,
     SUFFIX_STATE,
     SUFFIX_ALIAS_NAME,
@@ -20,12 +19,10 @@ async def greet_abon(chat_link: ChatLink):
 
     # формирует приветственное сообщение абоненту
     message_dto = MessageDTO.new(text)
-    notification = MessageDTO.new(ABON_GOT_TEXT.format(text=text))
+    message_dto.chat_id = chat_link.topic.id
 
     await chat_link.abon_chat.send(message_dto)  # отправка абону приветственного текста
-    await chat_link.topic.send(
-        notification
-    )  # отправка в топик информации о приветствии
+    await chat_link.topic.notify(message_dto.text)  # отправка в топик информации о приветствии
 
 
 # отложит процесс автозакрытия топика

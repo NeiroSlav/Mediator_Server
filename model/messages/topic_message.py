@@ -1,5 +1,5 @@
 from structures import ChatLinksHandler
-from controller import MessageDTO, bot_topic
+from controller import MessageDTO, bot_topic, foreign_api
 from const import BANNED
 from model.messages.utils import try_schedule_close
 
@@ -27,8 +27,7 @@ async def handle_topic_message(message_dto: MessageDTO):
     user = message_dto.meta["user"]
     await chat_link.topic.answer(user)
 
-    # присваиваем сообщению id лички абона, отправляем наружу
-    message_dto.chat_id = chat_link.abon_chat.id
+    # отправляем сообщение наружу
     await chat_link.abon_chat.send(message_dto)
 
     try_schedule_close(chat_link)

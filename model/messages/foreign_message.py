@@ -43,7 +43,6 @@ async def handle_foreign_message(message_dto: MessageDTO):
         await chat_link.topic.reopen()
 
     # пересылка сообщения абонента в топик
-    message_dto.chat_id = chat_link.topic.id
     await chat_link.topic.send(message_dto)
     if greeting_flag:
         await greet_abon(chat_link)

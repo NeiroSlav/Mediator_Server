@@ -20,6 +20,7 @@ class AbonChat:
 
     # отправка сообщения в чат абонента
     async def send(self, message_dto: MessageDTO):
+        await foreign_api.send_message_to_helper(message_dto, to_abon=True)
         message_dto.social = self.social
         message_dto.chat_id = self.id
-        await foreign_api.send_message_out(message_dto)
+        await foreign_api.send_message_to_client(message_dto)

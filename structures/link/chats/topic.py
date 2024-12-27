@@ -1,7 +1,6 @@
 from pprint import pprint
-from controller import bot_topic, MessageDTO
-from const import SOCIAL_COLORS, OPENED, ANSWERED, CLOSED, BANNED
-from controller import Backuper
+from controller import bot_topic, MessageDTO, Backuper, foreign_api
+from const import ABON_GOT_TEXT, SOCIAL_COLORS, OPENED, ANSWERED, CLOSED, BANNED
 from structures.link.chats.topic_utils import TopicMeta
 
 
@@ -40,7 +39,13 @@ class GroupTopic:
     # отправка сообщения в топик
     async def send(self, message_dto: MessageDTO):
         message_dto.chat_id = self.id
+        await foreign_api.send_message_to_helper(message_dto, to_abon=False)
         await bot_topic.send(message_dto)
+
+    async def notify(self, text: str):
+        notification = MessageDTO.new(ABON_GOT_TEXT.format(text=text))
+        notification.chat_id = self.id
+        await bot_topic.send(notification)
 
     # смена юзера и цвета перед именем топика
     async def update_sign(self):

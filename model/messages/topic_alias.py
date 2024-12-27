@@ -1,6 +1,6 @@
 from structures import ChatLinksHandler
 from controller import MessageDTO, bot_topic, aliaser
-from const import BANNED, ALIAS_SYMBOL, ABON_GOT_TEXT
+from const import BANNED, ALIAS_SYMBOL
 from model.messages.utils import try_schedule_close
 
 
@@ -31,12 +31,9 @@ async def handle_topic_alias(message_dto: MessageDTO):
     await chat_link.topic.answer(user)
 
     # присваиваем сообщению id лички абона, отправляем наружу
-    message_dto.chat_id = chat_link.abon_chat.id
     await chat_link.abon_chat.send(message_dto)
 
     # информируем сотрудника об отправленном абоненту сообщении
-    info_text = ABON_GOT_TEXT.format(text=alias_text)
-    info_message = MessageDTO.new(info_text)
-    await chat_link.topic.send(info_message)
+    await chat_link.topic.notify(message_dto.text)
 
     try_schedule_close(chat_link)
