@@ -9,7 +9,10 @@ async def handle_neiro_command(message_dto: MessageDTO):
 
     answer = MessageDTO.new(text=COMMAND_ERROR, chat_id=BROADCAST_ID)
 
-    if argument == "disable":
+    if not argument:
+        answer.text = "Нейро сейчас " + "включен" if NEIRO_STATE["enabled"] else "выключен"
+
+    elif argument == "disable":
         await foreign_api.send_clear_to_helper()
         NEIRO_STATE["enabled"] = False
         answer.text = "Нейро выключен"
