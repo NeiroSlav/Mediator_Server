@@ -92,6 +92,13 @@ async def get_broadcast_message(message: Message):
     await handle_broadcast_command(message_dto)
 
 
+# хендлер сообщения /neiro из чата бродкаста
+@dp.message(MyTopicFilter(broadcast=True), Command("neiro"))
+async def get_neiro_message(message: Message):
+    message_dto = await MessageDTO.parse_tg(message)
+    await handle_neiro_command(message_dto)
+
+
 # хендлер сообщения /statist из чата бродкаста
 @dp.message(MyTopicFilter(broadcast=True), Command("statist"))
 async def get_statist_message(message: Message):

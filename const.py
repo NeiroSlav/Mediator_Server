@@ -41,7 +41,7 @@ COMMENT_SYMBOL = "/"
 ALIAS_SYMBOL = "$"
 ALIAS_TEXT_ERROR = f'Вы не ввели шаблонный текст после "del"'
 ALIAS_SEARCH_ERROR = "Не удалось найти alias ${alias}"
-ALIAS_COMMAND_ERROR = "Неизвестная команда"
+COMMAND_ERROR = "Неизвестная команда"
 
 
 # цвета иконок при создании топика
@@ -62,6 +62,7 @@ SOCIAL_COLORS = {
 
 # глобальное состояние суффикса
 SUFFIX_STATE = {"enabled": False}
+NEIRO_STATE = {"enabled": True}
 SUFFIX_ALIAS_NAME = "suffix"
 
 # литералы состояний топиков

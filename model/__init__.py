@@ -7,6 +7,7 @@ from model.commands.aliases import handle_controll_aliases
 
 from model.commands.broadcast import handle_broadcast_command
 from model.commands.suffix import handle_suffix_command
+from model.commands.neiro import handle_neiro_command
 
 from model.commands.topic_close import handle_close_command
 from model.commands.topic_hold import handle_hold_command

@@ -1,5 +1,5 @@
 from controller import MessageDTO, bot_topic, aliaser
-from const import ALIAS_TEXT_ERROR, ALIAS_SEARCH_ERROR, ALIAS_COMMAND_ERROR
+from const import ALIAS_TEXT_ERROR, ALIAS_SEARCH_ERROR, COMMAND_ERROR
 from controller import MessageDTO, bot_topic
 from model.commands.utils import strip_arguments
 
@@ -53,5 +53,5 @@ async def handle_controll_aliases(message_dto: MessageDTO):
         return await bot_topic.send(message_dto)
 
     # если ни одна из команд не подошла - сообщит об ошибке.
-    message_dto.text = ALIAS_COMMAND_ERROR
+    message_dto.text = COMMAND_ERROR
     return await bot_topic.send(message_dto)
