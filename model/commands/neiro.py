@@ -12,13 +12,11 @@ async def handle_neiro_command(message_dto: MessageDTO):
     if argument == "disable":
         await foreign_api.send_clear_to_helper()
         NEIRO_STATE["enabled"] = False
-        answer.text = "Нейро-медиатор выключен"
-        return
+        answer.text = "Нейро выключен"
 
     elif argument == "enable":
         NEIRO_STATE["enabled"] = True
-        answer.text = "Нейро-медиатор включен"
-        return
+        answer.text = "Нейро включен"
 
     # отправляет в чат ответ на команду
     await bot_topic.send(
