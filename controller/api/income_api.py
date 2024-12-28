@@ -1,6 +1,6 @@
 from controller.api.init import app
 from controller.message_dto import MessageDTO
-from model import handle_foreign_message, redirect_helper_message
+from model import handle_foreign_message, redirect_helper_message, handle_topic_message
 
 
 # апи для входящего сообщения на сервер
@@ -12,4 +12,4 @@ async def get_foreign_message(message_dto: MessageDTO):
 # апи для входящего сообщения на сервер
 @app.post("/redir")
 async def get_foreign_message(message_dto: MessageDTO):
-    await redirect_helper_message(message_dto)
+    await handle_topic_message(message_dto)

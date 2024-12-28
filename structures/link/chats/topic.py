@@ -61,6 +61,7 @@ class GroupTopic:
     async def close(self):
         self.state = CLOSED
         self.meta.set_close()
+        await foreign_api.send_close_to_helper(topic_id=self.id)
         try:
             await self.update_sign()
             # await bot_topic.close(topic_id=self.id)
@@ -84,10 +85,11 @@ class GroupTopic:
         await self._backup_state()
 
     # бан топика
-    async def answer(self, user: str):
+    async def answer(self, user: str | None):
         self.state = ANSWERED
         self.meta.set_answer()
-        self.meta.user = user
+        if user:
+            self.meta.user = user
         await self.update_sign()
         await self._backup_state()
 

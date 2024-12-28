@@ -24,7 +24,7 @@ async def handle_topic_message(message_dto: MessageDTO):
         raise PermissionError
 
     # если топик ещё не "отвеченный" ставим флаг, меняем цвет
-    user = message_dto.meta["user"]
+    user = message_dto.meta.get("user")
     await chat_link.topic.answer(user)
 
     # отправляем сообщение наружу

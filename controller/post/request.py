@@ -1,6 +1,5 @@
 import copy
 import httpx
-import json
 from controller.message_dto import MessageDTO
 from controller.bot.controll import bot_topic
 from const import CLIENT_PORTS, POST_ERROR_LOG
@@ -36,14 +35,24 @@ class ForeignApi:
         if indefier:
             new_message.chat_id = indefier
 
-        print(new_message)
-
         port = CLIENT_PORTS["helper"]
         try:
             await self._send_post_request(
                 f"http://127.0.0.1:{port}/", 
                 new_message.model_dump_json(),
-                timeout=0.1,
+                timeout=0.2,
+            )
+        except Exception as e:
+            pass
+
+    # отправка команды удаления сервису хелпера
+    async def send_close_to_helper(self, topic_id: int):
+        print("CLOSING...")
+        port = CLIENT_PORTS["helper"]
+        try:
+            await self._send_post_request(
+                f"http://127.0.0.1:{port}/forget_dialog/{topic_id}",
+                timeout=0.2,
             )
         except Exception as e:
             pass
@@ -51,7 +60,7 @@ class ForeignApi:
 
     # отправляет post-запросс по url с указаными данными
     @staticmethod
-    async def _send_post_request(url: str, data: json, timeout=10):
+    async def _send_post_request(url: str, data: str = "", timeout: float = 10):
         async with httpx.AsyncClient() as client:
             return await client.post(url, data=data, timeout=timeout)
 

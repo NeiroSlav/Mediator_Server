@@ -27,7 +27,7 @@ async def handle_topic_alias(message_dto: MessageDTO):
     message_dto.text = alias_text
 
     # если топик ещё не "отвеченный" ставим флаг, меняем цвет
-    user = message_dto.meta["user"]
+    user = message_dto.meta.get("user")
     await chat_link.topic.answer(user)
 
     # присваиваем сообщению id лички абона, отправляем наружу
