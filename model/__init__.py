@@ -1,4 +1,5 @@
 from model.messages.foreign_message import handle_foreign_message
+from model.messages.redirect_message import redirect_helper_message
 from model.messages.topic_message import handle_topic_message
 
 from model.messages.topic_alias import handle_topic_alias

@@ -13,7 +13,8 @@ class ForeignApi:
         port = CLIENT_PORTS[message_dto.social]
         try:
             await self._send_post_request(
-                f"http://127.0.0.1:{port}/", message_dto.model_dump_json()
+                f"http://127.0.0.1:{port}/", 
+                message_dto.model_dump_json()
             )
         except Exception as e:
             if not e:
@@ -31,7 +32,7 @@ class ForeignApi:
     # отправка сообщения на сервис хелпера
     async def send_message_to_helper(self, message_dto: MessageDTO, to_abon: bool, indefier: str | None = None):
         new_message = copy.deepcopy(message_dto)
-        new_message.sender_name = "assistent" if to_abon else "user"
+        new_message.sender_name = "assistant" if to_abon else "user"
         if indefier:
             new_message.chat_id = indefier
 
@@ -40,7 +41,9 @@ class ForeignApi:
         port = CLIENT_PORTS["helper"]
         try:
             await self._send_post_request(
-                f"http://127.0.0.1:{port}/", message_dto.model_dump_json()
+                f"http://127.0.0.1:{port}/", 
+                new_message.model_dump_json(),
+                timeout=0.1,
             )
         except Exception as e:
             pass
@@ -48,9 +51,9 @@ class ForeignApi:
 
     # отправляет post-запросс по url с указаными данными
     @staticmethod
-    async def _send_post_request(url: str, data: json):
+    async def _send_post_request(url: str, data: json, timeout=10):
         async with httpx.AsyncClient() as client:
-            return await client.post(url, data=data)
+            return await client.post(url, data=data, timeout=timeout)
 
 
 foreign_api = ForeignApi()
